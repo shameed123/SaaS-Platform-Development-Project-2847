@@ -2,7 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* warm-purple and soft-pink palette (good purple pink typical ai color scheme) */
+/* warm-blue and soft-purple palette (good blue purple typical ai color scheme) */
+/*@layer base {
+  :root {
+    --color-warm-50:  #eef4ff;
+    --color-warm-100: #d6e4ff;
+    --color-warm-200: #adc8ff;
+    --color-warm-300: #7da8ff;
+    --color-warm-400: #4c87f9;
+    --color-warm-500: #2862eb;
+    --color-warm-600: #1f4fd3;
+    --color-warm-700: #183fbb;  
+    --color-warm-800: #1435a0;
+    --color-warm-900: #102b80;
+
+    --color-soft-50:  #f7f2ff;
+    --color-soft-100: #e9dcff;
+    --color-soft-200: #d4b9ff;
+    --color-soft-300: #be93f9;
+    --color-soft-400: #a96ef6;
+    --color-soft-500: #823aea;
+    --color-soft-600: #6b29d2;
+    --color-soft-700: #551fb0;
+    --color-soft-800: #451b91;
+    --color-soft-900: #37166f;
+  }
+}
+
+/* warm-purple and soft-pink palette (good purple pink color scheme) */
 /*
 @layer base {
   :root {
@@ -56,7 +83,7 @@
     --color-soft-800: #8f481a;
     --color-soft-900: #723816;
   }
-}
+}*/
 
 
 /* warm-sunlit-mint and soft-soft-sky palette (good blue green color scheme) */
