@@ -105,7 +105,7 @@ function ForgotPasswordPage() {
                     }
                   })}
                   type="email"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                   placeholder="Enter your email"
                 />
               </div>

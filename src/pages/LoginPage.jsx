@@ -73,7 +73,7 @@ function LoginPage() {
                     }
                   })}
                   type="email"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="input-field"
                   placeholder="Enter your email"
                 />
               </div>
@@ -95,7 +95,7 @@ function LoginPage() {
                     required: 'Password is required'
                   })}
                   type={showPassword ? 'text' : 'password'}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="input-field-password"
                   placeholder="Enter your password"
                 />
                 <button

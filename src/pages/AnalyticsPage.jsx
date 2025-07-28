@@ -109,7 +109,7 @@ function AnalyticsPage() {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+            className="border border-gray-300 rounded-lg px-3 py-2 input-popup"
           >
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>

@@ -80,7 +80,7 @@ function SettingsPage() {
                 type="text"
                 value={formData.companyLabel}
                 onChange={(e) => handleInputChange('companyLabel', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                 placeholder="e.g., Company, Team, Organization"
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -96,7 +96,7 @@ function SettingsPage() {
                   type="number"
                   value={formData.maxAdminsPerCompany}
                   onChange={(e) => handleInputChange('maxAdminsPerCompany', parseInt(e.target.value) || 0)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                   placeholder="0 for unlimited"
                   min="0"
                 />
@@ -134,7 +134,7 @@ function SettingsPage() {
                     type="number"
                     value={formData.planFeatures?.free?.maxUsers || 3}
                     onChange={(e) => handlePlanFeatureChange('free', 'maxUsers', parseInt(e.target.value) || 0)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                     min="1"
                   />
                 </div>
@@ -145,7 +145,7 @@ function SettingsPage() {
                   <select
                     value={formData.planFeatures?.free?.analytics || 'basic'}
                     onChange={(e) => handlePlanFeatureChange('free', 'analytics', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                   >
                     <option value="basic">Basic</option>
                     <option value="advanced">Advanced</option>
@@ -188,7 +188,7 @@ function SettingsPage() {
                     type="number"
                     value={formData.planFeatures?.pro?.maxUsers || 100}
                     onChange={(e) => handlePlanFeatureChange('pro', 'maxUsers', parseInt(e.target.value) || 0)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                     min="1"
                   />
                 </div>
@@ -199,7 +199,7 @@ function SettingsPage() {
                   <select
                     value={formData.planFeatures?.pro?.analytics || 'advanced'}
                     onChange={(e) => handlePlanFeatureChange('pro', 'analytics', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                   >
                     <option value="basic">Basic</option>
                     <option value="advanced">Advanced</option>
@@ -255,7 +255,7 @@ function SettingsPage() {
                 type="number"
                 value={formData.passwordMinLength || 8}
                 onChange={(e) => handleInputChange('passwordMinLength', parseInt(e.target.value) || 8)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                 min="6"
                 max="32"
               />
@@ -269,7 +269,7 @@ function SettingsPage() {
                 type="number"
                 value={formData.sessionTimeout || 60}
                 onChange={(e) => handleInputChange('sessionTimeout', parseInt(e.target.value) || 60)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                 min="5"
                 max="1440"
               />

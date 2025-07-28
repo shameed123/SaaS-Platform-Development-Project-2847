@@ -154,7 +154,7 @@ function CompanyManagement() {
                             placeholder={`Search ${settings.companyLabel?.toLowerCase() || 'company'}s...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg input-popup"
           />
         </div>
       </div>
@@ -281,7 +281,7 @@ function CompanyManagement() {
                       slug: generateSlug(name)
                     });
                   }}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                   placeholder="Acme Corporation"
                      required
                 />
@@ -295,7 +295,7 @@ function CompanyManagement() {
                   type="text"
                   value={newCompany.slug}
                   onChange={(e) => setNewCompany({ ...newCompany, slug: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                   placeholder="acme-corporation"
                      required
                 />
@@ -312,7 +312,7 @@ function CompanyManagement() {
                      type="text"
                      value={newCompany.domain}
                      onChange={(e) => setNewCompany({ ...newCompany, domain: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                      placeholder="acme.com"
                    />
                 </div>
@@ -324,7 +324,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.industry}
                      onChange={(e) => setNewCompany({ ...newCompany, industry: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                     <option value="">Select Industry</option>
                     <option value="Technology">Technology</option>
@@ -347,7 +347,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.size}
                      onChange={(e) => setNewCompany({ ...newCompany, size: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                     <option value="">Select Size</option>
                     <option value="1-10">1-10 employees</option>
@@ -366,7 +366,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.subscription_plan}
                      onChange={(e) => setNewCompany({ ...newCompany, subscription_plan: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                     <option value="free">Free</option>
                     <option value="pro">Pro</option>
@@ -381,7 +381,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.subscription_status}
                      onChange={(e) => setNewCompany({ ...newCompany, subscription_status: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                     <option value="inactive">Inactive</option>
                     <option value="active">Active</option>
@@ -398,7 +398,7 @@ function CompanyManagement() {
                      type="number"
                      value={newCompany.max_users}
                      onChange={(e) => setNewCompany({ ...newCompany, max_users: parseInt(e.target.value) || 3 })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                      min="1"
                      placeholder="3"
                    />
@@ -583,7 +583,7 @@ function CompanyManagement() {
                      type="text"
                      value={editingCompany.name || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, name: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                      placeholder="Acme Corporation"
                    />
                  </div>
@@ -596,7 +596,7 @@ function CompanyManagement() {
                      type="text"
                      value={editingCompany.domain || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, domain: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                      placeholder="acme.com"
                    />
                  </div>
@@ -608,7 +608,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.industry || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, industry: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                      <option value="">Select Industry</option>
                      <option value="Technology">Technology</option>
@@ -629,7 +629,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.size || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, size: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                      <option value="">Select Size</option>
                      <option value="1-10">1-10 employees</option>
@@ -650,7 +650,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.subscription_plan || 'free'}
                      onChange={(e) => setEditingCompany({ ...editingCompany, subscription_plan: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                      <option value="free">Free</option>
                      <option value="pro">Pro</option>
@@ -665,7 +665,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.subscription_status || 'inactive'}
                      onChange={(e) => setEditingCompany({ ...editingCompany, subscription_status: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                    >
                      <option value="inactive">Inactive</option>
                      <option value="active">Active</option>
@@ -682,7 +682,7 @@ function CompanyManagement() {
                      type="number"
                      value={editingCompany.max_users || 3}
                      onChange={(e) => setEditingCompany({ ...editingCompany, max_users: parseInt(e.target.value) || 3 })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                      min="1"
                      placeholder="3"
                    />
