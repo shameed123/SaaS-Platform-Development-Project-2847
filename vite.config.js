@@ -5,6 +5,11 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   base: './',
+  server: {
+    port: 4100,
+    host: true, // This allows external connections
+    open: true  // This will automatically open the browser
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')

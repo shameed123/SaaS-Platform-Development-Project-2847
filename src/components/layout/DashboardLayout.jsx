@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
@@ -18,6 +18,14 @@ function DashboardLayout({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Scroll to top when location changes
+  useEffect(() => {
+    const mainContent = document.querySelector('main');
+    if (mainContent) {
+      mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location.pathname]);
+
   const handleLogout = () => {
     logout();
     navigate('/');
@@ -29,9 +37,16 @@ function DashboardLayout({ children }) {
       { name: 'Profile', href: '/dashboard/profile', icon: FiUser, roles: ['super_admin', 'admin', 'user'] },
     ];
 
+    // Helper function to properly pluralize the company label
+    const getCompanyPlural = (label) => {
+      if (label === 'Company') return 'Companies';
+      // Default fallback - just add 's' but handle common cases
+      return label + 's';
+    };
+
     const roleBasedItems = [
       { name: 'Users', href: '/dashboard/users', icon: FiUsers, roles: ['super_admin', 'admin'] },
-      { name: settings.companyLabel + 's', href: '/dashboard/companies', icon: FiBuilding, roles: ['super_admin'] },
+      { name: getCompanyPlural(settings.companyLabel), href: '/dashboard/companies', icon: FiBuilding, roles: ['super_admin'] },
       { name: 'Subscription', href: '/dashboard/subscription', icon: FiCreditCard, roles: ['admin'] },
       { name: 'Analytics', href: '/dashboard/analytics', icon: FiBarChart, roles: ['super_admin', 'admin'] },
       { name: 'Settings', href: '/dashboard/settings', icon: FiSettings, roles: ['super_admin'] },
