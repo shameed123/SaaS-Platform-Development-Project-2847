@@ -55,6 +55,114 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Update current user's profile
+router.put('/profile', async (req, res) => {
+  try {
+    const { first_name, last_name, email } = req.body;
+    const userId = req.user.id;
+
+    // Check if email is being changed and if it's already taken
+    if (email && email !== req.user.email) {
+      const existingUser = await pool.query(
+        'SELECT id FROM users WHERE email = $1 AND id != $2',
+        [email, userId]
+      );
+
+      if (existingUser.rows.length > 0) {
+        return res.status(400).json({ message: 'Email already taken' });
+      }
+    }
+
+    // Update user profile
+    const result = await pool.query(
+      `UPDATE users 
+       SET first_name = $1, last_name = $2, email = $3, updated_at = CURRENT_TIMESTAMP
+       WHERE id = $4 RETURNING *`,
+      [first_name, last_name, email, userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const row = result.rows[0];
+    
+    // Get company info if user has one
+    let company = null;
+    if (row.company_id) {
+      const companyResult = await pool.query(
+        'SELECT id, name, domain, industry, size, subscription_status, subscription_plan FROM companies WHERE id = $1',
+        [row.company_id]
+      );
+      if (companyResult.rows.length > 0) {
+        company = companyResult.rows[0];
+      }
+    }
+
+    // Transform the data to match frontend expectations (camelCase)
+    const user = {
+      id: row.id,
+      email: row.email,
+      first_name: row.first_name,
+      last_name: row.last_name,
+      role: row.role,
+      email_verified: row.email_verified,
+      company_id: row.company_id,
+      company
+    };
+
+    res.json(user);
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Update current user's password
+router.put('/password', async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    // Get current user with password hash
+    const userResult = await pool.query(
+      'SELECT password_hash FROM users WHERE id = $1',
+      [userId]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const user = userResult.rows[0];
+
+    // Verify current password
+    const bcrypt = require('bcrypt');
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password_hash);
+    
+    if (!isCurrentPasswordValid) {
+      return res.status(400).json({ message: 'Current password is incorrect' });
+    }
+
+    // Hash new password
+    const saltRounds = 10;
+    const newPasswordHash = await bcrypt.hash(newPassword, saltRounds);
+
+    // Update password
+    await pool.query(
+      `UPDATE users 
+       SET password_hash = $1, updated_at = CURRENT_TIMESTAMP
+       WHERE id = $2`,
+      [newPasswordHash, userId]
+    );
+
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Update password error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // Get user by ID
 router.get('/:id', async (req, res) => {
   try {
@@ -167,7 +275,7 @@ router.put('/:id', async (req, res) => {
     const result = await pool.query(
       `UPDATE users 
        SET first_name = $1, last_name = $2, role = $3, updated_at = CURRENT_TIMESTAMP
-       WHERE ${whereClause} RETURNING *`,
+       WHERE ${whereClause.replace('$1', '$4').replace('$2', '$5')} RETURNING *`,
       [first_name, last_name, role, ...queryParams]
     );
 

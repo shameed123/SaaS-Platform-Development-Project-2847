@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import toast from 'react-hot-toast';
+import { userAPI } from '../services/api';
 
 const { FiUser, FiMail, FiLock, FiSave, FiEye, FiEyeOff, FiCamera } = FiIcons;
 
 function ProfilePage() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -18,11 +19,12 @@ function ProfilePage() {
   const {
     register: registerProfile,
     handleSubmit: handleSubmitProfile,
+    reset: resetProfile,
     formState: { errors: profileErrors }
   } = useForm({
     defaultValues: {
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
+      firstName: user?.first_name || '',
+      lastName: user?.last_name || '',
       email: user?.email || ''
     }
   });
@@ -37,22 +39,49 @@ function ProfilePage() {
 
   const newPassword = watch('newPassword');
 
+  // Update form values when user data changes
+  useEffect(() => {
+    if (user) {
+      resetProfile({
+        firstName: user.first_name || '',
+        lastName: user.last_name || '',
+        email: user.email || ''
+      });
+    }
+  }, [user, resetProfile]);
+
   const onSubmitProfile = async (data) => {
     try {
       // API call to update profile
+      const response = await userAPI.updateProfile({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email
+      });
+      
+      // Update the user context with the new data
+      setUser(response.data);
+      
       toast.success('Profile updated successfully!');
     } catch (error) {
-      toast.error('Failed to update profile');
+      console.error('Profile update error:', error);
+      toast.error(error.response?.data?.message || 'Failed to update profile');
     }
   };
 
   const onSubmitPassword = async (data) => {
     try {
       // API call to change password
+      await userAPI.updatePassword({
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword
+      });
+      
       toast.success('Password changed successfully!');
       resetPassword();
     } catch (error) {
-      toast.error('Failed to change password');
+      console.error('Password change error:', error);
+      toast.error(error.response?.data?.message || 'Failed to change password');
     }
   };
 
@@ -80,22 +109,22 @@ function ProfilePage() {
       >
         <div className="flex items-center space-x-6">
           <div className="relative">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-              <span className="text-2xl font-bold">
-                {user?.firstName?.[0]}{user?.lastName?.[0]}
-              </span>
-            </div>
+                         <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
+               <span className="text-2xl font-bold">
+                 {user?.first_name?.[0]}{user?.last_name?.[0]}
+               </span>
+             </div>
             <button className="absolute bottom-0 right-0 w-6 h-6 bg-white text-warm-600 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
               <SafeIcon icon={FiCamera} className="w-3 h-3" />
             </button>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold">{user?.firstName} {user?.lastName}</h2>
-                    <p className="text-warm-100">{user?.email}</p>
-        <p className="text-warm-200 text-sm capitalize">
-              {user?.role?.replace('_', ' ')} • {user?.company?.name || 'No company assigned'}
-            </p>
-          </div>
+                     <div>
+             <h2 className="text-2xl font-bold">{user?.first_name} {user?.last_name}</h2>
+             <p className="text-warm-100">{user?.email}</p>
+             <p className="text-warm-200 text-sm capitalize">
+               {user?.role?.replace('_', ' ')} • {user?.company?.name || 'No company assigned'}
+             </p>
+           </div>
         </div>
       </motion.div>
 
