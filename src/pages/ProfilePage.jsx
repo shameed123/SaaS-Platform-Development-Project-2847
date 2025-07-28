@@ -76,7 +76,7 @@ function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl p-8 text-white"
+        className="bg-gradient-to-r from-warm-500 to-soft-500 rounded-xl p-8 text-white"
       >
         <div className="flex items-center space-x-6">
           <div className="relative">
@@ -85,14 +85,14 @@ function ProfilePage() {
                 {user?.firstName?.[0]}{user?.lastName?.[0]}
               </span>
             </div>
-            <button className="absolute bottom-0 right-0 w-6 h-6 bg-white text-teal-600 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
+            <button className="absolute bottom-0 right-0 w-6 h-6 bg-white text-warm-600 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
               <SafeIcon icon={FiCamera} className="w-3 h-3" />
             </button>
           </div>
           <div>
             <h2 className="text-2xl font-bold">{user?.firstName} {user?.lastName}</h2>
-                    <p className="text-teal-100">{user?.email}</p>
-        <p className="text-teal-200 text-sm capitalize">
+                    <p className="text-warm-100">{user?.email}</p>
+        <p className="text-warm-200 text-sm capitalize">
               {user?.role?.replace('_', ' ')} • {user?.company?.name || 'No company assigned'}
             </p>
           </div>
@@ -109,7 +109,7 @@ function ProfilePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 transition-colors ${
                   activeTab === tab.id
-                    ? 'border-teal-500 text-teal-600'
+                    ? 'border-warm-500 text-warm-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -139,7 +139,7 @@ function ProfilePage() {
                         required: 'First name is required'
                       })}
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                     />
                     {profileErrors.firstName && (
                       <p className="mt-1 text-sm text-red-600">{profileErrors.firstName.message}</p>
@@ -155,7 +155,7 @@ function ProfilePage() {
                         required: 'Last name is required'
                       })}
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                     />
                     {profileErrors.lastName && (
                       <p className="mt-1 text-sm text-red-600">{profileErrors.lastName.message}</p>
@@ -176,7 +176,7 @@ function ProfilePage() {
                       }
                     })}
                     type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                   />
                   {profileErrors.email && (
                     <p className="mt-1 text-sm text-red-600">{profileErrors.email.message}</p>
@@ -186,7 +186,7 @@ function ProfilePage() {
                 <div className="flex justify-end">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
+                    className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
                   >
                     <SafeIcon icon={FiSave} className="w-4 h-4" />
                     <span>Save Changes</span>
@@ -214,7 +214,7 @@ function ProfilePage() {
                         required: 'Current password is required'
                       })}
                       type={showCurrentPassword ? 'text' : 'password'}
-                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                     />
                     <button
                       type="button"
@@ -246,7 +246,7 @@ function ProfilePage() {
                         }
                       })}
                       type={showNewPassword ? 'text' : 'password'}
-                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                     />
                     <button
                       type="button"
@@ -275,7 +275,7 @@ function ProfilePage() {
                         validate: value => value === newPassword || 'Passwords do not match'
                       })}
                       type={showConfirmPassword ? 'text' : 'password'}
-                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                     />
                     <button
                       type="button"
@@ -296,7 +296,7 @@ function ProfilePage() {
                 <div className="flex justify-end">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
+                    className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
                   >
                     <SafeIcon icon={FiSave} className="w-4 h-4" />
                     <span>Change Password</span>
@@ -313,7 +313,7 @@ function ProfilePage() {
                       <h4 className="font-medium text-gray-900">Two-Factor Authentication</h4>
                       <p className="text-sm text-gray-600">Add an extra layer of security to your account</p>
                     </div>
-                    <button className="text-teal-600 hover:text-teal-800 font-medium">
+                    <button className="text-warm-600 hover:text-warm-800 font-medium">
                       Enable
                     </button>
                   </div>
@@ -323,7 +323,7 @@ function ProfilePage() {
                       <h4 className="font-medium text-gray-900">Login Alerts</h4>
                       <p className="text-sm text-gray-600">Get notified when your account is accessed</p>
                     </div>
-                    <button className="text-teal-600 hover:text-teal-800 font-medium">
+                    <button className="text-warm-600 hover:text-warm-800 font-medium">
                       Configure
                     </button>
                   </div>
@@ -333,7 +333,7 @@ function ProfilePage() {
                       <h4 className="font-medium text-gray-900">Active Sessions</h4>
                       <p className="text-sm text-gray-600">Manage devices that are signed in to your account</p>
                     </div>
-                    <button className="text-teal-600 hover:text-teal-800 font-medium">
+                    <button className="text-warm-600 hover:text-warm-800 font-medium">
                       View All
                     </button>
                   </div>

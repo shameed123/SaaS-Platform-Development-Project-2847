@@ -49,24 +49,24 @@ function SuperAdminDashboard() {
       title: 'Total Users',
       value: stats.totalUsers,
       icon: FiUsers,
-              color: 'text-teal-600',
-        bgColor: 'bg-teal-100',
+              color: 'text-warm-600',
+        bgColor: 'bg-warm-100',
       change: '+12%'
     },
     {
       title: 'Total Companies',
       value: stats.totalCompanies,
       icon: FiBuilding,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100',
+      color: 'text-soft-600',
+      bgColor: 'bg-soft-100',
       change: '+8%'
     },
     {
       title: 'Monthly Revenue',
       value: `$${stats.totalRevenue?.toLocaleString() || 0}`,
       icon: FiDollarSign,
-              color: 'text-cyan-600',
-        bgColor: 'bg-cyan-100',
+              color: 'text-soft-600',
+        bgColor: 'bg-soft-100',
       change: '+25%'
     },
     {
@@ -106,7 +106,7 @@ function SuperAdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-warm-500"></div>
       </div>
     );
   }
@@ -114,11 +114,11 @@ function SuperAdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
-              <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl p-8 text-white">
+              <div className="bg-gradient-to-r from-warm-500 to-soft-500 rounded-2xl p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">
           Super Admin Dashboard
         </h1>
-                  <p className="text-teal-100">
+                  <p className="text-warm-100">
           Monitor platform-wide metrics and manage global settings.
         </p>
       </div>
@@ -137,7 +137,7 @@ function SuperAdminDashboard() {
               <div className={`w-12 h-12 ${stat.bgColor} rounded-xl flex items-center justify-center`}>
                 <SafeIcon icon={stat.icon} className={`w-6 h-6 ${stat.color}`} />
               </div>
-              <span className="text-sm font-medium text-green-600">{stat.change}</span>
+              <span className="text-sm font-medium text-soft-600">{stat.change}</span>
             </div>
             <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
             <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
@@ -210,21 +210,21 @@ function SuperAdminDashboard() {
                 key={index}
                 to={action.href}
                 className={`block p-4 border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 group ${
-                  action.color === 'teal' ? 'hover:border-teal-500 hover:bg-teal-50' :
-                  action.color === 'cyan' ? 'hover:border-cyan-500 hover:bg-cyan-50' :
-                  'hover:border-green-500 hover:bg-green-50'
+                  action.color === 'teal' ? 'hover:border-warm-500 hover:bg-warm-50' :
+                  action.color === 'cyan' ? 'hover:border-soft-500 hover:bg-soft-50' :
+                  'hover:border-soft-500 hover:bg-soft-50'
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                    action.color === 'teal' ? 'bg-teal-100 group-hover:bg-teal-200' :
-                    action.color === 'cyan' ? 'bg-cyan-100 group-hover:bg-cyan-200' :
-                    'bg-green-100 group-hover:bg-green-200'
+                    action.color === 'teal' ? 'bg-warm-100 group-hover:bg-warm-200' :
+                    action.color === 'cyan' ? 'bg-soft-100 group-hover:bg-soft-200' :
+                    'bg-soft-100 group-hover:bg-soft-200'
                   }`}>
                     <SafeIcon icon={action.icon} className={`w-5 h-5 ${
-                      action.color === 'teal' ? 'text-teal-600' :
-                      action.color === 'cyan' ? 'text-cyan-600' :
-                      'text-green-600'
+                      action.color === 'teal' ? 'text-warm-600' :
+                      action.color === 'cyan' ? 'text-soft-600' :
+                      'text-soft-600'
                     }`} />
                   </div>
                   <div>
@@ -246,17 +246,17 @@ function SuperAdminDashboard() {
         >
           <h2 className="text-xl font-bold text-gray-900 mb-6">System Status</h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-soft-50 rounded-lg">
               <span className="text-sm font-medium text-gray-900">Database</span>
-              <span className="text-sm text-green-600 font-semibold">Healthy</span>
+              <span className="text-sm text-soft-600 font-semibold">Healthy</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-soft-50 rounded-lg">
               <span className="text-sm font-medium text-gray-900">API Server</span>
-              <span className="text-sm text-green-600 font-semibold">Online</span>
+              <span className="text-sm text-soft-600 font-semibold">Online</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-soft-50 rounded-lg">
               <span className="text-sm font-medium text-gray-900">Payment System</span>
-              <span className="text-sm text-green-600 font-semibold">Active</span>
+              <span className="text-sm text-soft-600 font-semibold">Active</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
               <span className="text-sm font-medium text-gray-900">Email Service</span>

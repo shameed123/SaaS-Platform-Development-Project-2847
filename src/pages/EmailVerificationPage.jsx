@@ -29,14 +29,14 @@ function EmailVerificationPage() {
       case 'success':
         return {
           icon: FiCheck,
-          iconColor: 'text-green-600',
-          bgColor: 'bg-green-100',
+          iconColor: 'text-soft-600',
+          bgColor: 'bg-soft-100',
           title: 'Email Verified!',
           message: 'Your email has been successfully verified. You can now sign in to your account.',
                       action: (
               <Link
                 to="/login"
-                className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
+                className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
               >
                 Sign In
               </Link>
@@ -52,7 +52,7 @@ function EmailVerificationPage() {
                       action: (
               <Link
                 to="/signup"
-                className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
+                className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
               >
                 Sign Up Again
               </Link>
@@ -61,8 +61,8 @@ function EmailVerificationPage() {
               default:
           return {
             icon: FiMail,
-            iconColor: 'text-teal-600',
-            bgColor: 'bg-teal-100',
+            iconColor: 'text-warm-600',
+            bgColor: 'bg-warm-100',
             title: token ? 'Verifying...' : 'Check Your Email',
             message: token 
               ? 'Please wait while we verify your email address.'
@@ -70,7 +70,7 @@ function EmailVerificationPage() {
             action: !token && (
               <Link
                 to="/login"
-                className="text-teal-600 hover:text-teal-500 font-semibold transition-colors"
+                className="text-warm-600 hover:text-warm-500 font-semibold transition-colors"
               >
                 Back to Login
               </Link>
@@ -82,7 +82,7 @@ function EmailVerificationPage() {
   const content = getStatusContent();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-warm-50 via-white to-soft-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -91,10 +91,10 @@ function EmailVerificationPage() {
       >
         <div className="text-center">
           <Link to="/" className="inline-flex items-center space-x-2 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-warm-500 to-soft-500 rounded-xl flex items-center justify-center">
               <SafeIcon icon={FiZap} className="text-white text-lg" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-warm-500 to-soft-500 bg-clip-text text-transparent">
               SaaS Pro
             </span>
           </Link>

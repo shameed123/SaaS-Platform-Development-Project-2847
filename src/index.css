@@ -2,32 +2,119 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom pastel green-blue color scheme */
+/* warm-gold and soft-brown palette */
 @layer base {
   :root {
-    --color-teal-50: #f0fdfa;
-    --color-teal-100: #ccfbf1;
-    --color-teal-200: #99f6e4;
-    --color-teal-300: #5eead4;
-    --color-teal-400: #2dd4bf;
-    --color-teal-500: #14b8a6;
-    --color-teal-600: #0d9488;
-    --color-teal-700: #0f766e;
-    --color-teal-800: #115e59;
-    --color-teal-900: #134e4a;
-    
-    --color-cyan-50: #ecfeff;
-    --color-cyan-100: #cffafe;
-    --color-cyan-200: #a5f3fc;
-    --color-cyan-300: #67e8f9;
-    --color-cyan-400: #22d3ee;
-    --color-cyan-500: #06b6d4;
-    --color-cyan-600: #0891b2;
-    --color-cyan-700: #0e7490;
-    --color-cyan-800: #155e75;
-    --color-cyan-900: #164e63;
+    /* Soft - Gold Shades */
+    --color-soft-50: #fffbea;
+    --color-soft-100: #fff3c4;
+    --color-soft-200: #fce588;
+    --color-soft-300: #fadb5f;
+    --color-soft-400: #f7c948;
+    --color-soft-500: #f0b429;
+    --color-soft-600: #de911d;
+    --color-soft-700: #cb6e17;
+    --color-soft-800: #b44d12;
+    --color-soft-900: #8d2b0b;
+
+    /* Warm - Brown Shades */
+    --color-warm-50: #efebe9;
+    --color-warm-100: #d7ccc8;
+    --color-warm-200: #bcaaa4;
+    --color-warm-300: #a1887f;
+    --color-warm-400: #8d6e63;
+    --color-warm-500: #795548;
+    --color-warm-600: #6d4c41;
+    --color-warm-700: #5d4037;
+    --color-warm-800: #4e342e;
+    --color-warm-900: #3e2723;
   }
 }
+
+/* cooler, neon-mint and pastel-cyan palette */
+/* @layer base {
+  :root {
+    --color-soft-50: #e6fff3;
+    --color-soft-100: #b8ffe0;
+    --color-soft-200: #8affcc;
+    --color-soft-300: #5cffb8;
+    --color-soft-400: #2effa4;
+    --color-soft-500: #00ff87;
+    --color-soft-600: #00cc6c;
+    --color-soft-700: #00a358;
+    --color-soft-800: #007a43;
+    --color-soft-900: #005f35;
+
+    --color-warm-50: #ecfdff;
+    --color-warm-100: #d3faff;
+    --color-warm-200: #b1f5fc;
+    --color-warm-300: #8deffe;
+    --color-warm-400: #60efff;
+    --color-warm-500: #3ad1e5;
+    --color-warm-600: #28a9bb;
+    --color-warm-700: #1e8291;
+    --color-warm-800: #17636f;
+    --color-warm-900: #104a56;
+  }
+} */
+
+
+/* Custom vivid orange and pastel yellow color scheme */
+/* @layer base {
+  :root {
+    --color-warm-50: #fff3e9;
+    --color-warm-100: #ffe0c2;
+    --color-warm-200: #ffd09e;
+    --color-warm-300: #ffb770;
+    --color-warm-400: #f99b4e;
+    --color-warm-500: #f4762d;
+    --color-warm-600: #db5f1b;
+    --color-warm-700: #b84b16;
+    --color-warm-800: #933a11;
+    --color-warm-900: #7a2f0d;
+
+    --color-soft-50: #fff9ec;
+    --color-soft-100: #fff0cd;
+    --color-soft-200: #ffe7ad;
+    --color-soft-300: #ffd78a;
+    --color-soft-400: #ffc766;
+    --color-soft-500: #fbb54d;
+    --color-soft-600: #e49e3b;
+    --color-soft-700: #bd7e29;
+    --color-soft-800: #965f1a;
+    --color-soft-900: #7a4b12;
+  }
+} */
+
+
+/* Custom pastel green-blue color scheme */
+/*
+@layer base {
+  :root {
+    --color-warm-50: #f0fdfa;
+    --color-warm-100: #ccfbf1;
+    --color-warm-200: #99f6e4;
+    --color-warm-300: #5eead4;
+    --color-warm-400: #2dd4bf;
+    --color-warm-500: #14b8a6;
+    --color-warm-600: #0d9488;
+    --color-warm-700: #0f766e;
+    --color-warm-800: #115e59;
+    --color-warm-900: #134e4a;
+    
+    --color-soft-50: #ecfeff;
+    --color-soft-100: #cffafe;
+    --color-soft-200: #a5f3fc;
+    --color-soft-300: #67e8f9;
+    --color-soft-400: #22d3ee;
+    --color-soft-500: #06b6d4;
+    --color-soft-600: #0891b2;
+    --color-soft-700: #0e7490;
+    --color-soft-800: #155e75;
+    --color-soft-900: #164e63;
+  }
+}
+*/
 
 * {
   margin: 0;

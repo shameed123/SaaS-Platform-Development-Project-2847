@@ -121,7 +121,7 @@ function CompanyManagement() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-warm-500"></div>
       </div>
     );
   }
@@ -138,7 +138,7 @@ function CompanyManagement() {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
+          className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
         >
           <SafeIcon icon={FiPlus} className="w-4 h-4" />
                         <span>Create {settings.companyLabel || 'Company'}</span>
@@ -154,7 +154,7 @@ function CompanyManagement() {
                             placeholder={`Search ${settings.companyLabel?.toLowerCase() || 'company'}s...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
           />
         </div>
       </div>
@@ -170,13 +170,13 @@ function CompanyManagement() {
             className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
           >
             <div className="flex items-start justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-warm-500 to-soft-500 rounded-xl flex items-center justify-center">
                 <SafeIcon icon={FiBuilding} className="w-6 h-6 text-white" />
               </div>
               <div className="flex space-x-1">
                  <button 
                    onClick={() => handleEditCompany(company)}
-                   className="p-1 text-gray-400 hover:text-teal-600 transition-colors"
+                   className="p-1 text-gray-400 hover:text-warm-600 transition-colors"
                  >
                   <SafeIcon icon={FiEdit} className="w-4 h-4" />
                 </button>
@@ -216,14 +216,14 @@ function CompanyManagement() {
               <div className="flex items-center justify-between">
                 <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                   company.subscription?.status === 'active' 
-                    ? 'bg-green-100 text-green-800' 
+                    ? 'bg-soft-100 text-soft-800' 
                     : 'bg-gray-100 text-gray-800'
                 }`}>
                   {company.subscription?.plan || 'Free'}
                 </span>
                 <button 
                   onClick={() => handleViewDetails(company)}
-                  className="text-teal-600 hover:text-teal-800 text-sm font-medium"
+                  className="text-warm-600 hover:text-warm-800 text-sm font-medium"
                 >
                   View Details
                 </button>
@@ -281,7 +281,7 @@ function CompanyManagement() {
                       slug: generateSlug(name)
                     });
                   }}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                   placeholder="Acme Corporation"
                      required
                 />
@@ -295,7 +295,7 @@ function CompanyManagement() {
                   type="text"
                   value={newCompany.slug}
                   onChange={(e) => setNewCompany({ ...newCompany, slug: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                   placeholder="acme-corporation"
                      required
                 />
@@ -312,7 +312,7 @@ function CompanyManagement() {
                      type="text"
                      value={newCompany.domain}
                      onChange={(e) => setNewCompany({ ...newCompany, domain: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                      placeholder="acme.com"
                    />
                 </div>
@@ -324,7 +324,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.industry}
                      onChange={(e) => setNewCompany({ ...newCompany, industry: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                     <option value="">Select Industry</option>
                     <option value="Technology">Technology</option>
@@ -347,7 +347,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.size}
                      onChange={(e) => setNewCompany({ ...newCompany, size: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                     <option value="">Select Size</option>
                     <option value="1-10">1-10 employees</option>
@@ -366,7 +366,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.subscription_plan}
                      onChange={(e) => setNewCompany({ ...newCompany, subscription_plan: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                     <option value="free">Free</option>
                     <option value="pro">Pro</option>
@@ -381,7 +381,7 @@ function CompanyManagement() {
                                      <select
                      value={newCompany.subscription_status}
                      onChange={(e) => setNewCompany({ ...newCompany, subscription_status: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                     <option value="inactive">Inactive</option>
                     <option value="active">Active</option>
@@ -398,7 +398,7 @@ function CompanyManagement() {
                      type="number"
                      value={newCompany.max_users}
                      onChange={(e) => setNewCompany({ ...newCompany, max_users: parseInt(e.target.value) || 3 })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                      min="1"
                      placeholder="3"
                    />
@@ -419,7 +419,7 @@ function CompanyManagement() {
               <button
                 onClick={handleCreateCompany}
                 disabled={!newCompany.name || !newCompany.slug}
-                className="px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-gradient-to-r from-warm-500 to-soft-500 text-white rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Create {settings.companyLabel || 'Company'}
               </button>
@@ -493,9 +493,9 @@ function CompanyManagement() {
                   </label>
                   <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                     selectedCompany.subscription_plan === 'pro' 
-                      ? 'bg-teal-100 text-teal-800' 
+                      ? 'bg-warm-100 text-warm-800' 
                       : selectedCompany.subscription_plan === 'enterprise'
-                      ? 'bg-cyan-100 text-cyan-800'
+                      ? 'bg-soft-100 text-soft-800'
                       : 'bg-gray-100 text-gray-800'
                   }`}>
                     {selectedCompany.subscription_plan || 'Free'}
@@ -508,7 +508,7 @@ function CompanyManagement() {
                   </label>
                   <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                     selectedCompany.subscription_status === 'active' 
-                      ? 'bg-green-100 text-green-800' 
+                      ? 'bg-soft-100 text-soft-800' 
                       : 'bg-gray-100 text-gray-800'
                   }`}>
                     {selectedCompany.subscription_status || 'Inactive'}
@@ -544,7 +544,7 @@ function CompanyManagement() {
               </button>
                              <button
                  onClick={() => handleEditCompany(selectedCompany)}
-                 className="px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+                 className="px-4 py-2 bg-gradient-to-r from-warm-500 to-soft-500 text-white rounded-lg hover:shadow-lg transition-all duration-200"
                >
                  Edit {settings.companyLabel || 'Company'}
                </button>
@@ -583,7 +583,7 @@ function CompanyManagement() {
                      type="text"
                      value={editingCompany.name || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, name: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                      placeholder="Acme Corporation"
                    />
                  </div>
@@ -596,7 +596,7 @@ function CompanyManagement() {
                      type="text"
                      value={editingCompany.domain || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, domain: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                      placeholder="acme.com"
                    />
                  </div>
@@ -608,7 +608,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.industry || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, industry: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                      <option value="">Select Industry</option>
                      <option value="Technology">Technology</option>
@@ -629,7 +629,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.size || ''}
                      onChange={(e) => setEditingCompany({ ...editingCompany, size: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                      <option value="">Select Size</option>
                      <option value="1-10">1-10 employees</option>
@@ -650,7 +650,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.subscription_plan || 'free'}
                      onChange={(e) => setEditingCompany({ ...editingCompany, subscription_plan: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                      <option value="free">Free</option>
                      <option value="pro">Pro</option>
@@ -665,7 +665,7 @@ function CompanyManagement() {
                    <select
                      value={editingCompany.subscription_status || 'inactive'}
                      onChange={(e) => setEditingCompany({ ...editingCompany, subscription_status: e.target.value })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                    >
                      <option value="inactive">Inactive</option>
                      <option value="active">Active</option>
@@ -682,7 +682,7 @@ function CompanyManagement() {
                      type="number"
                      value={editingCompany.max_users || 3}
                      onChange={(e) => setEditingCompany({ ...editingCompany, max_users: parseInt(e.target.value) || 3 })}
-                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                      min="1"
                      placeholder="3"
                    />
@@ -703,7 +703,7 @@ function CompanyManagement() {
                <button
                  onClick={handleUpdateCompany}
                  disabled={!editingCompany.name}
-                 className="px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                 className="px-4 py-2 bg-gradient-to-r from-warm-500 to-soft-500 text-white rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                >
                  Update {settings.companyLabel || 'Company'}
               </button>

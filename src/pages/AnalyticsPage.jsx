@@ -53,24 +53,24 @@ function AnalyticsPage() {
       title: 'Total Users',
       value: stats.totalUsers || 0,
       icon: FiUsers,
-      color: 'text-teal-600',
-      bgColor: 'bg-teal-100',
+      color: 'text-warm-600',
+      bgColor: 'bg-warm-100',
       change: '+12%'
     },
     {
       title: 'Active Users',
       value: stats.activeUsers || 0,
       icon: FiActivity,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100',
+      color: 'text-soft-600',
+      bgColor: 'bg-soft-100',
       change: '+8%'
     },
     {
       title: 'Growth Rate',
       value: '23%',
       icon: FiTrendingUp,
-      color: 'text-cyan-600',
-      bgColor: 'bg-cyan-100',
+      color: 'text-soft-600',
+      bgColor: 'bg-soft-100',
       change: '+5%'
     }
   ];
@@ -89,7 +89,7 @@ function AnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-warm-600"></div>
       </div>
     );
   }
@@ -109,7 +109,7 @@ function AnalyticsPage() {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-warm-500 focus:border-transparent"
           >
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
@@ -117,7 +117,7 @@ function AnalyticsPage() {
             <option value="1y">Last year</option>
           </select>
           
-          <button className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2">
+          <button className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2">
             <SafeIcon icon={FiDownload} className="w-4 h-4" />
             <span>Export</span>
           </button>
@@ -138,7 +138,7 @@ function AnalyticsPage() {
               <div className={`w-12 h-12 ${stat.bgColor} rounded-xl flex items-center justify-center`}>
                 <SafeIcon icon={stat.icon} className={`w-6 h-6 ${stat.color}`} />
               </div>
-              <span className="text-sm font-medium text-green-600">{stat.change}</span>
+              <span className="text-sm font-medium text-soft-600">{stat.change}</span>
             </div>
             <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
             <p className="text-2xl font-bold text-gray-900">{stat.value}</p>

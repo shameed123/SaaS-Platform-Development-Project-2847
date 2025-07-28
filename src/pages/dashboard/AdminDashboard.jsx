@@ -46,24 +46,24 @@ function AdminDashboard() {
       title: 'Total Users',
       value: stats.totalUsers,
       icon: FiUsers,
-      color: 'text-teal-600',
-      bgColor: 'bg-teal-100',
+      color: 'text-warm-600',
+      bgColor: 'bg-warm-100',
       change: '+12%'
     },
     {
       title: 'Active Users',
       value: stats.activeUsers,
       icon: FiTrendingUp,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100',
+      color: 'text-soft-600',
+      bgColor: 'bg-soft-100',
       change: '+8%'
     },
     {
       title: 'Monthly Revenue',
       value: `$${stats.monthlyRevenue}`,
       icon: FiDollarSign,
-      color: 'text-cyan-600',
-      bgColor: 'bg-cyan-100',
+      color: 'text-soft-600',
+      bgColor: 'bg-soft-100',
       change: '+15%'
     }
   ];
@@ -95,7 +95,7 @@ function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-warm-500"></div>
       </div>
     );
   }
@@ -103,11 +103,11 @@ function AdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-warm-500 to-soft-500 rounded-2xl p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">
           Admin Dashboard
         </h1>
-        <p className="text-teal-100">
+        <p className="text-warm-100">
           Manage your {settings.companyLabel?.toLowerCase() || 'company'} and track performance metrics.
         </p>
       </div>
@@ -132,7 +132,7 @@ function AdminDashboard() {
                   <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
                 </div>
               </div>
-              <span className="text-sm font-medium text-green-600">{stat.change}</span>
+              <span className="text-sm font-medium text-soft-600">{stat.change}</span>
             </div>
           </motion.div>
         ))}
@@ -180,21 +180,21 @@ function AdminDashboard() {
                 key={index}
                 to={action.href}
                 className={`block p-4 border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 group ${
-                  action.color === 'teal' ? 'hover:border-teal-500 hover:bg-teal-50' :
-                  action.color === 'cyan' ? 'hover:border-cyan-500 hover:bg-cyan-50' :
-                  'hover:border-green-500 hover:bg-green-50'
+                  action.color === 'teal' ? 'hover:border-warm-500 hover:bg-warm-50' :
+                  action.color === 'cyan' ? 'hover:border-soft-500 hover:bg-soft-50' :
+                  'hover:border-soft-500 hover:bg-soft-50'
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                    action.color === 'teal' ? 'bg-teal-100 group-hover:bg-teal-200' :
-                    action.color === 'cyan' ? 'bg-cyan-100 group-hover:bg-cyan-200' :
-                    'bg-green-100 group-hover:bg-green-200'
+                    action.color === 'teal' ? 'bg-warm-100 group-hover:bg-warm-200' :
+                    action.color === 'cyan' ? 'bg-soft-100 group-hover:bg-soft-200' :
+                    'bg-soft-100 group-hover:bg-soft-200'
                   }`}>
                     <SafeIcon icon={action.icon} className={`w-5 h-5 ${
-                      action.color === 'teal' ? 'text-teal-600' :
-                      action.color === 'cyan' ? 'text-cyan-600' :
-                      'text-green-600'
+                      action.color === 'teal' ? 'text-warm-600' :
+                      action.color === 'cyan' ? 'text-soft-600' :
+                      'text-soft-600'
                     }`} />
                   </div>
                   <div>
@@ -218,14 +218,14 @@ function AdminDashboard() {
           className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
         >
           <h2 className="text-xl font-bold text-gray-900 mb-6">Subscription Status</h2>
-          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl">
+          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-warm-50 to-soft-50 rounded-xl">
             <div>
               <p className="text-sm text-gray-600">Current Plan</p>
               <p className="text-xl font-bold text-gray-900 capitalize">{stats.subscriptionStatus}</p>
             </div>
             <Link
               to="/dashboard/subscription"
-              className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-200"
+              className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-200"
             >
               Manage
             </Link>

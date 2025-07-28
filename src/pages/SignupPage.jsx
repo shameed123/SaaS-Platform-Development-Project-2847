@@ -34,7 +34,7 @@ function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-warm-50 via-white to-soft-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,10 +43,10 @@ function SignupPage() {
       >
         <div className="text-center">
           <Link to="/" className="inline-flex items-center space-x-2 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-warm-500 to-soft-500 rounded-xl flex items-center justify-center">
               <SafeIcon icon={FiZap} className="text-white text-lg" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-warm-500 to-soft-500 bg-clip-text text-transparent">
               SaaS Pro
             </span>
           </Link>
@@ -74,7 +74,7 @@ function SignupPage() {
                       required: 'First name is required'
                     })}
                     type="text"
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
                     placeholder="John"
                   />
                 </div>
@@ -96,7 +96,7 @@ function SignupPage() {
                       required: 'Last name is required'
                     })}
                     type="text"
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
                     placeholder="Doe"
                   />
                 </div>
@@ -123,7 +123,7 @@ function SignupPage() {
                     }
                   })}
                   type="email"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
                   placeholder="john@example.com"
                 />
               </div>
@@ -145,7 +145,7 @@ function SignupPage() {
                     required: 'Company name is required'
                   })}
                   type="text"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
                   placeholder="Acme Corp"
                 />
               </div>
@@ -171,7 +171,7 @@ function SignupPage() {
                     }
                   })}
                   type={showPassword ? 'text' : 'password'}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
                   placeholder="Create a strong password"
                 />
                 <button
@@ -204,7 +204,7 @@ function SignupPage() {
                     validate: value => value === password || 'Passwords do not match'
                   })}
                   type={showConfirmPassword ? 'text' : 'password'}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
                   placeholder="Confirm your password"
                 />
                 <button
@@ -231,15 +231,15 @@ function SignupPage() {
                 id="terms"
                 name="terms"
                 type="checkbox"
-                className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+                className="h-4 w-4 text-warm-600 focus:ring-warm-500 border-gray-300 rounded"
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
                 I agree to the{' '}
-                                  <a href="#" className="text-teal-600 hover:text-teal-500">
+                                  <a href="#" className="text-warm-600 hover:text-warm-500">
                     Terms of Service
                   </a>{' '}
                 and{' '}
-                                  <a href="#" className="text-teal-600 hover:text-teal-500">
+                                  <a href="#" className="text-warm-600 hover:text-warm-500">
                     Privacy Policy
                   </a>
               </label>
@@ -251,7 +251,7 @@ function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-3 px-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-warm-500 to-soft-500 text-white py-3 px-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Creating account...' : 'Create account'}
             </button>
@@ -262,7 +262,7 @@ function SignupPage() {
               Already have an account?{' '}
               <Link
                 to="/login"
-                className="text-teal-600 hover:text-teal-500 font-semibold transition-colors"
+                className="text-warm-600 hover:text-warm-500 font-semibold transition-colors"
               >
                 Sign in
               </Link>
