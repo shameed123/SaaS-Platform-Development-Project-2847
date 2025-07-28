@@ -258,9 +258,9 @@ function SuperAdminDashboard() {
               <span className="text-sm font-medium text-gray-900">Payment System</span>
               <span className="text-sm text-soft-600 font-semibold">Active</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-warm-50 rounded-lg">
               <span className="text-sm font-medium text-gray-900">Email Service</span>
-              <span className="text-sm text-yellow-600 font-semibold">Monitoring</span>
+              <span className="text-sm text-warm-600 font-semibold">Monitoring</span>
             </div>
           </div>
         </motion.div>
