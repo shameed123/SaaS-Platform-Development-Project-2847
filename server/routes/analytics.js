@@ -6,8 +6,8 @@ const router = express.Router();
 // Get dashboard stats
 router.get('/dashboard', async (req, res) => {
   try {
-    // Get total users
-    const usersResult = await pool.query('SELECT COUNT(*) as total_users FROM users');
+    // Get total users (excluding super admins for company-specific stats)
+    const usersResult = await pool.query("SELECT COUNT(*) as total_users FROM users WHERE role != 'super_admin'");
     
     // Get total companies
     const companiesResult = await pool.query('SELECT COUNT(*) as total_companies FROM companies');
@@ -51,7 +51,7 @@ router.get('/user-growth', async (req, res) => {
         DATE_TRUNC('month', created_at) as month,
         COUNT(*) as new_users
       FROM users 
-      WHERE created_at >= NOW() - INTERVAL '6 months'
+      WHERE created_at >= NOW() - INTERVAL '6 months' AND role != 'super_admin'
       GROUP BY DATE_TRUNC('month', created_at)
       ORDER BY month
     `);
@@ -96,13 +96,13 @@ router.get('/revenue', async (req, res) => {
 // Get company stats
 router.get('/companies', async (req, res) => {
   try {
-    // Get top companies by user count
+    // Get top companies by user count (excluding super admins who have no company)
     const topCompaniesResult = await pool.query(`
       SELECT 
         c.name,
-        COUNT(u.id) as user_count
+        COALESCE(COUNT(u.id), 0) as user_count
       FROM companies c
-      LEFT JOIN users u ON c.id = u.company_id
+      LEFT JOIN users u ON c.id = u.company_id AND u.role != 'super_admin'
       GROUP BY c.id, c.name
       ORDER BY user_count DESC
       LIMIT 10

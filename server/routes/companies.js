@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         c.*,
         COUNT(u.id) as user_count
       FROM companies c
-      LEFT JOIN users u ON c.id = u.company_id
+      LEFT JOIN users u ON c.id = u.company_id AND u.role != 'super_admin'
       GROUP BY c.id
       ORDER BY c.created_at DESC
     `);
@@ -33,7 +33,7 @@ router.get('/:id', async (req, res) => {
         c.*,
         COUNT(u.id) as user_count
       FROM companies c
-      LEFT JOIN users u ON c.id = u.company_id
+      LEFT JOIN users u ON c.id = u.company_id AND u.role != 'super_admin'
       WHERE c.id = $1
       GROUP BY c.id
     `, [id]);

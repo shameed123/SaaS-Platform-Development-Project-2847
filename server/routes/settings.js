@@ -42,16 +42,38 @@ router.get('/', async (req, res) => {
       // Parse global settings
       globalResult.rows.forEach(row => {
         try {
-          const value = JSON.parse(row.value);
+          // The value is already an object, no need to parse JSON
+          const value = row.value;
           if (row.key === 'company_label') {
             settings.companyLabel = value.value;
           } else if (row.key === 'max_admins_per_company') {
             settings.maxAdminsPerCompany = value.value;
           } else if (row.key === 'plan_features') {
-            settings.planFeatures = value;
+            // Convert snake_case to camelCase for plan features
+            settings.planFeatures = {
+              free: {
+                maxUsers: value.free?.max_users || 3,
+                emailSupport: value.free?.email_support || false,
+                customBranding: value.free?.custom_branding || false,
+                analytics: value.free?.analytics || 'basic'
+              },
+              pro: {
+                maxUsers: value.pro?.max_users || 100,
+                emailSupport: value.pro?.email_support || true,
+                customBranding: value.pro?.custom_branding || true,
+                analytics: value.pro?.analytics || 'advanced'
+              },
+              enterprise: {
+                maxUsers: value.enterprise?.max_users || -1,
+                emailSupport: value.enterprise?.email_support || true,
+                customBranding: value.enterprise?.custom_branding || true,
+                analytics: value.enterprise?.analytics || 'premium',
+                dedicatedSupport: value.enterprise?.dedicated_support || true
+              }
+            };
           }
         } catch (e) {
-          console.error('Error parsing global setting:', row.key, e);
+          console.error('Error processing global setting:', row.key, e);
         }
       });
 
@@ -65,13 +87,14 @@ router.get('/', async (req, res) => {
         // Override with company-specific settings
         companyResult.rows.forEach(row => {
           try {
-            const value = JSON.parse(row.value);
+            // The value is already an object, no need to parse JSON
+            const value = row.value;
             if (row.key === 'company_label') {
               settings.companyLabel = value.value || value;
             }
             // Add other company-specific overrides as needed
           } catch (e) {
-            console.error('Error parsing company setting:', row.key, e);
+            console.error('Error processing company setting:', row.key, e);
           }
         });
       }
