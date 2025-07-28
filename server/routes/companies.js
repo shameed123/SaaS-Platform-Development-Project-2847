@@ -16,7 +16,24 @@ router.get('/', async (req, res) => {
       ORDER BY c.created_at DESC
     `);
 
-    res.json(result.rows);
+    // Transform the data to match frontend expectations (camelCase)
+    const companies = result.rows.map(row => ({
+      id: row.id,
+      name: row.name,
+      domain: row.domain,
+      slug: row.domain, // Using domain as slug for now
+      industry: row.industry,
+      size: row.size,
+      subscription_status: row.subscription_status,
+      subscription_plan: row.subscription_plan,
+      stripe_customer_id: row.stripe_customer_id,
+      max_users: row.max_users,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      userCount: parseInt(row.user_count) || 0
+    }));
+
+    res.json(companies);
   } catch (error) {
     console.error('Get companies error:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -42,7 +59,25 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Company not found' });
     }
 
-    res.json(result.rows[0]);
+    const row = result.rows[0];
+    // Transform the data to match frontend expectations (camelCase)
+    const company = {
+      id: row.id,
+      name: row.name,
+      domain: row.domain,
+      slug: row.domain, // Using domain as slug for now
+      industry: row.industry,
+      size: row.size,
+      subscription_status: row.subscription_status,
+      subscription_plan: row.subscription_plan,
+      stripe_customer_id: row.stripe_customer_id,
+      max_users: row.max_users,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      userCount: parseInt(row.user_count) || 0
+    };
+
+    res.json(company);
   } catch (error) {
     console.error('Get company error:', error);
     res.status(500).json({ message: 'Internal server error' });
