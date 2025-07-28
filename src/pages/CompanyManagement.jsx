@@ -15,7 +15,9 @@ function CompanyManagement() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
+  const [editingCompany, setEditingCompany] = useState({});
   const [newCompany, setNewCompany] = useState({ name: '', slug: '' });
 
   useEffect(() => {
@@ -64,6 +66,33 @@ function CompanyManagement() {
   const handleViewDetails = (company) => {
     setSelectedCompany(company);
     setShowDetailsModal(true);
+  };
+
+  const handleEditCompany = (company) => {
+    setEditingCompany({
+      id: company.id,
+      name: company.name,
+      domain: company.domain || '',
+      industry: company.industry || '',
+      size: company.size || '',
+      subscription_plan: company.subscription_plan || 'free',
+      subscription_status: company.subscription_status || 'inactive',
+      max_users: company.max_users || 3
+    });
+    setShowEditModal(true);
+    setShowDetailsModal(false);
+  };
+
+  const handleUpdateCompany = async () => {
+    try {
+      await companyAPI.updateCompany(editingCompany.id, editingCompany);
+      toast.success(`${settings.companyLabel || 'Company'} updated successfully!`);
+      setShowEditModal(false);
+      setEditingCompany({});
+      fetchCompanies();
+    } catch (error) {
+      toast.error(error.response?.data?.message || `Failed to update ${settings.companyLabel?.toLowerCase() || 'company'}`);
+    }
   };
 
   const filteredCompanies = companies.filter(company => 
@@ -126,10 +155,13 @@ function CompanyManagement() {
               <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <SafeIcon icon={FiBuilding} className="w-6 h-6 text-white" />
               </div>
-              <div className="flex space-x-1">
-                <button className="p-1 text-gray-400 hover:text-blue-600 transition-colors">
-                  <SafeIcon icon={FiEdit} className="w-4 h-4" />
-                </button>
+                             <div className="flex space-x-1">
+                 <button 
+                   onClick={() => handleEditCompany(company)}
+                   className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+                 >
+                   <SafeIcon icon={FiEdit} className="w-4 h-4" />
+                 </button>
                 <button
                   onClick={() => handleDeleteCompany(company.id)}
                   className="p-1 text-gray-400 hover:text-red-600 transition-colors"
@@ -376,21 +408,177 @@ function CompanyManagement() {
               >
                 Close
               </button>
-              <button
-                onClick={() => {
-                  // TODO: Implement edit functionality
-                  setShowDetailsModal(false);
-                }}
-                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200"
-              >
-                Edit {settings.companyLabel || 'Company'}
-              </button>
+                             <button
+                 onClick={() => handleEditCompany(selectedCompany)}
+                 className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+               >
+                 Edit {settings.companyLabel || 'Company'}
+               </button>
             </div>
-          </motion.div>
-        </div>
-      )}
-    </div>
-  );
-}
+                     </motion.div>
+         </div>
+       )}
+
+       {/* Edit Company Modal */}
+       {showEditModal && (
+         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+           <motion.div
+             initial={{ opacity: 0, scale: 0.95 }}
+             animate={{ opacity: 1, scale: 1 }}
+             className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+           >
+             <div className="flex items-center justify-between mb-6">
+               <h3 className="text-xl font-semibold text-gray-900">
+                 Edit {settings.companyLabel || 'Company'}
+               </h3>
+               <button
+                 onClick={() => setShowEditModal(false)}
+                 className="text-gray-400 hover:text-gray-600"
+               >
+                 <SafeIcon icon={FiIcons.FiX} className="w-6 h-6" />
+               </button>
+             </div>
+
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div className="space-y-4">
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                     {settings.companyLabel || 'Company'} Name *
+                   </label>
+                   <input
+                     type="text"
+                     value={editingCompany.name || ''}
+                     onChange={(e) => setEditingCompany({ ...editingCompany, name: e.target.value })}
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                     placeholder="Acme Corporation"
+                   />
+                 </div>
+
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                     Domain
+                   </label>
+                   <input
+                     type="text"
+                     value={editingCompany.domain || ''}
+                     onChange={(e) => setEditingCompany({ ...editingCompany, domain: e.target.value })}
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                     placeholder="acme.com"
+                   />
+                 </div>
+
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                     Industry
+                   </label>
+                   <select
+                     value={editingCompany.industry || ''}
+                     onChange={(e) => setEditingCompany({ ...editingCompany, industry: e.target.value })}
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                   >
+                     <option value="">Select Industry</option>
+                     <option value="Technology">Technology</option>
+                     <option value="Healthcare">Healthcare</option>
+                     <option value="Finance">Finance</option>
+                     <option value="Education">Education</option>
+                     <option value="Retail">Retail</option>
+                     <option value="Manufacturing">Manufacturing</option>
+                     <option value="Consulting">Consulting</option>
+                     <option value="Other">Other</option>
+                   </select>
+                 </div>
+
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                     Company Size
+                   </label>
+                   <select
+                     value={editingCompany.size || ''}
+                     onChange={(e) => setEditingCompany({ ...editingCompany, size: e.target.value })}
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                   >
+                     <option value="">Select Size</option>
+                     <option value="1-10">1-10 employees</option>
+                     <option value="11-50">11-50 employees</option>
+                     <option value="51-100">51-100 employees</option>
+                     <option value="101-500">101-500 employees</option>
+                     <option value="501-1000">501-1000 employees</option>
+                     <option value="1000+">1000+ employees</option>
+                   </select>
+                 </div>
+               </div>
+
+               <div className="space-y-4">
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                     Subscription Plan
+                   </label>
+                   <select
+                     value={editingCompany.subscription_plan || 'free'}
+                     onChange={(e) => setEditingCompany({ ...editingCompany, subscription_plan: e.target.value })}
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                   >
+                     <option value="free">Free</option>
+                     <option value="pro">Pro</option>
+                     <option value="enterprise">Enterprise</option>
+                   </select>
+                 </div>
+
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                     Subscription Status
+                   </label>
+                   <select
+                     value={editingCompany.subscription_status || 'inactive'}
+                     onChange={(e) => setEditingCompany({ ...editingCompany, subscription_status: e.target.value })}
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                   >
+                     <option value="inactive">Inactive</option>
+                     <option value="active">Active</option>
+                     <option value="cancelled">Cancelled</option>
+                     <option value="past_due">Past Due</option>
+                   </select>
+                 </div>
+
+                 <div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                     Max Users Allowed
+                   </label>
+                   <input
+                     type="number"
+                     value={editingCompany.max_users || 3}
+                     onChange={(e) => setEditingCompany({ ...editingCompany, max_users: parseInt(e.target.value) || 3 })}
+                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                     min="1"
+                     placeholder="3"
+                   />
+                   <p className="text-xs text-gray-500 mt-1">
+                     Set to -1 for unlimited users
+                   </p>
+                 </div>
+               </div>
+             </div>
+
+             <div className="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+               <button
+                 onClick={() => setShowEditModal(false)}
+                 className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+               >
+                 Cancel
+               </button>
+               <button
+                 onClick={handleUpdateCompany}
+                 disabled={!editingCompany.name}
+                 className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+               >
+                 Update {settings.companyLabel || 'Company'}
+               </button>
+             </div>
+           </motion.div>
+         </div>
+       )}
+     </div>
+   );
+ }
 
 export default CompanyManagement;
