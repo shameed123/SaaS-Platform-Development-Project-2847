@@ -203,6 +203,18 @@ router.post('/signup', [
 
       const user = userResult.rows[0];
 
+      // Get company info if user has one
+      let company = null;
+      if (user.company_id) {
+        const companyResult = await client.query(
+          'SELECT id, name, domain, industry, size, subscription_status, subscription_plan FROM companies WHERE id = $1',
+          [user.company_id]
+        );
+        if (companyResult.rows.length > 0) {
+          company = companyResult.rows[0];
+        }
+      }
+
       // Generate JWT token
       const token = jwt.sign(
         { 
@@ -224,7 +236,8 @@ router.post('/signup', [
           last_name: user.last_name,
           role: user.role,
           email_verified: user.email_verified,
-          company_id: user.company_id
+          company_id: user.company_id,
+          company
         }
       });
 
