@@ -10,8 +10,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
-   build: {
+  define: {
+    global: 'globalThis',
+  },
+  optimizeDeps: {
+    exclude: ['jsonwebtoken', 'bcryptjs']
+  },
+  build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      external: ['jsonwebtoken', 'bcryptjs']
+    }
   },
 });

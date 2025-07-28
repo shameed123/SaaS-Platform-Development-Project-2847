@@ -6,8 +6,6 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 import { 
   mockUsers, 
   mockCompanies, 
@@ -19,6 +17,25 @@ import {
   mockDashboardStats,
   mockSettings
 } from './mockData';
+
+// Simple JWT-like token generation for browser compatibility
+const generateMockToken = (payload) => {
+  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+  const payloadStr = btoa(JSON.stringify(payload));
+  const signature = btoa('mock-signature');
+  return `${header}.${payloadStr}.${signature}`;
+};
+
+const verifyMockToken = (token) => {
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(atob(parts[1]));
+    return payload;
+  } catch (error) {
+    return null;
+  }
+};
 
 // JWT secret key (in a real app, this would be in an environment variable)
 const JWT_SECRET = 'your-secret-key';
@@ -51,8 +68,8 @@ export const mockAuthAPI = {
     }
     
     // In a real app, we'd use bcrypt.compare
-    // This is simplified for the mock
-    if (user.password !== '$2a$10$XvVzW3rYMZEt6JvMZl7Wpe3BMtHDcvKYS5yVcNMvOUUgBxGQI6nCi') {
+    // This is simplified for the mock - using a simple password check
+    if (password !== 'password123') {
       throw { response: { data: { message: 'Invalid password' } } };
     }
     
@@ -60,12 +77,13 @@ export const mockAuthAPI = {
       throw { response: { data: { message: 'Email not verified' } } };
     }
     
-    // Create a JWT token
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+    // Create a mock JWT token
+    const token = generateMockToken({
+      id: user.id, 
+      email: user.email, 
+      role: user.role,
+      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
+    });
     
     // Omit password from returned user
     const { password: _, ...userWithoutPassword } = user;
@@ -103,7 +121,11 @@ export const mockAuthAPI = {
     }
     
     try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = verifyMockToken(token);
+      if (!decoded) {
+        throw { response: { data: { message: 'Invalid token' } } };
+      }
+      
       const user = findUserById(decoded.id);
       
       if (!user) {
@@ -167,7 +189,11 @@ export const mockUserAPI = {
     }
     
     try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = verifyMockToken(token);
+      if (!decoded) {
+        throw { response: { data: { message: 'Invalid token' } } };
+      }
+      
       const user = findUserById(decoded.id);
       
       if (!user) {
@@ -241,7 +267,11 @@ export const mockCompanyAPI = {
     }
     
     try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = verifyMockToken(token);
+      if (!decoded) {
+        throw { response: { data: { message: 'Invalid token' } } };
+      }
+      
       const user = findUserById(decoded.id);
       
       if (!user) {
