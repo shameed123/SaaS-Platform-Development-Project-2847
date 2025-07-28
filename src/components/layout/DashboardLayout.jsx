@@ -46,7 +46,7 @@ function DashboardLayout({ children }) {
 
     const roleBasedItems = [
       { name: 'Users', href: '/dashboard/users', icon: FiUsers, roles: ['super_admin', 'admin'] },
-      { name: getCompanyPlural(settings.companyLabel), href: '/dashboard/companies', icon: FiBuilding, roles: ['super_admin'] },
+      { name: getCompanyPlural(settings.companyLabel || 'Company'), href: '/dashboard/companies', icon: FiBuilding, roles: ['super_admin'] },
       { name: 'Subscription', href: '/dashboard/subscription', icon: FiCreditCard, roles: ['admin'] },
       { name: 'Analytics', href: '/dashboard/analytics', icon: FiBarChart, roles: ['super_admin', 'admin'] },
       { name: 'Settings', href: '/dashboard/settings', icon: FiSettings, roles: ['super_admin'] },

@@ -19,11 +19,11 @@ router.get('/dashboard', async (req, res) => {
     const revenueResult = await pool.query("SELECT COALESCE(SUM(amount), 0) as total_revenue FROM invoices WHERE status = 'paid'");
 
     const stats = {
-      total_users: parseInt(usersResult.rows[0].total_users),
-      total_companies: parseInt(companiesResult.rows[0].total_companies),
-      active_subscriptions: parseInt(subscriptionsResult.rows[0].active_subscriptions),
-      total_revenue: parseInt(revenueResult.rows[0].total_revenue) / 100, // Convert from cents to dollars
-      chart_data: {
+      totalUsers: parseInt(usersResult.rows[0].total_users),
+      totalCompanies: parseInt(companiesResult.rows[0].total_companies),
+      activeSubscriptions: parseInt(subscriptionsResult.rows[0].active_subscriptions),
+      totalRevenue: parseInt(revenueResult.rows[0].total_revenue) / 100, // Convert from cents to dollars
+      chartData: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [
           {
@@ -58,7 +58,7 @@ router.get('/user-growth', async (req, res) => {
 
     const growthData = result.rows.map(row => ({
       month: row.month.toISOString().slice(0, 7), // YYYY-MM format
-      new_users: parseInt(row.new_users)
+      newUsers: parseInt(row.new_users)
     }));
 
     res.json(growthData);
@@ -96,44 +96,23 @@ router.get('/revenue', async (req, res) => {
 // Get company stats
 router.get('/companies', async (req, res) => {
   try {
-    // Get companies by industry
-    const industryResult = await pool.query(`
+    // Get top companies by user count
+    const topCompaniesResult = await pool.query(`
       SELECT 
-        industry,
-        COUNT(*) as count
-      FROM companies 
-      WHERE industry IS NOT NULL
-      GROUP BY industry
-      ORDER BY count DESC
+        c.name,
+        COUNT(u.id) as user_count
+      FROM companies c
+      LEFT JOIN users u ON c.id = u.company_id
+      GROUP BY c.id, c.name
+      ORDER BY user_count DESC
       LIMIT 10
     `);
 
-    // Get companies by size
-    const sizeResult = await pool.query(`
-      SELECT 
-        size,
-        COUNT(*) as count
-      FROM companies 
-      WHERE size IS NOT NULL
-      GROUP BY size
-      ORDER BY count DESC
-    `);
-
-    // Get subscription plan distribution
-    const planResult = await pool.query(`
-      SELECT 
-        subscription_plan,
-        COUNT(*) as count
-      FROM companies 
-      GROUP BY subscription_plan
-      ORDER BY count DESC
-    `);
-
-    const companyStats = {
-      by_industry: industryResult.rows,
-      by_size: sizeResult.rows,
-      by_plan: planResult.rows
-    };
+    // Transform the data to match frontend expectations
+    const companyStats = topCompaniesResult.rows.map(row => ({
+      name: row.name || 'Unknown Company',
+      userCount: parseInt(row.user_count) || 0
+    }));
 
     res.json(companyStats);
   } catch (error) {

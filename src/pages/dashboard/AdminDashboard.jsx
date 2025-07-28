@@ -108,7 +108,7 @@ function AdminDashboard() {
           Admin Dashboard
         </h1>
         <p className="text-blue-100">
-          Manage your {settings.companyLabel.toLowerCase()} and track performance metrics.
+          Manage your {settings.companyLabel?.toLowerCase() || 'company'} and track performance metrics.
         </p>
       </div>
 
@@ -239,7 +239,7 @@ function AdminDashboard() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
         >
-          <h2 className="text-xl font-bold text-gray-900 mb-6">{settings.companyLabel} Info</h2>
+                      <h2 className="text-xl font-bold text-gray-900 mb-6">{settings.companyLabel || 'Company'} Info</h2>
           <div className="space-y-3">
             <div>
               <p className="text-sm text-gray-600">Name</p>

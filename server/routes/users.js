@@ -16,7 +16,22 @@ router.get('/', async (req, res) => {
       ORDER BY u.created_at DESC
     `);
 
-    res.json(result.rows);
+    // Transform the data to match frontend expectations (camelCase)
+    const users = result.rows.map(row => ({
+      id: row.id,
+      email: row.email,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      role: row.role,
+      emailVerified: row.email_verified,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      companyId: row.company_id,
+      companyName: row.company_name,
+      companyDomain: row.company_domain
+    }));
+
+    res.json(users);
   } catch (error) {
     console.error('Get users error:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -42,7 +57,23 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json(result.rows[0]);
+    const row = result.rows[0];
+    // Transform the data to match frontend expectations (camelCase)
+    const user = {
+      id: row.id,
+      email: row.email,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      role: row.role,
+      emailVerified: row.email_verified,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      companyId: row.company_id,
+      companyName: row.company_name,
+      companyDomain: row.company_domain
+    };
+
+    res.json(user);
   } catch (error) {
     console.error('Get user error:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -71,7 +102,21 @@ router.post('/', async (req, res) => {
       [email, first_name, last_name, role || 'user', company_id]
     );
 
-    res.status(201).json(result.rows[0]);
+    const row = result.rows[0];
+    // Transform the data to match frontend expectations (camelCase)
+    const user = {
+      id: row.id,
+      email: row.email,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      role: row.role,
+      emailVerified: row.email_verified,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      companyId: row.company_id
+    };
+
+    res.status(201).json(user);
   } catch (error) {
     console.error('Create user error:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -95,7 +140,21 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json(result.rows[0]);
+    const row = result.rows[0];
+    // Transform the data to match frontend expectations (camelCase)
+    const user = {
+      id: row.id,
+      email: row.email,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      role: row.role,
+      emailVerified: row.email_verified,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      companyId: row.company_id
+    };
+
+    res.json(user);
   } catch (error) {
     console.error('Update user error:', error);
     res.status(500).json({ message: 'Internal server error' });

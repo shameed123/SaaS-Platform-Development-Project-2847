@@ -32,9 +32,13 @@ function SuperAdminDashboard() {
       ]);
       setStats(statsResponse.data);
       setRevenueData(revenueResponse.data);
-      setCompanyStats(companyResponse.data);
+      // Ensure companyStats is always an array
+      setCompanyStats(Array.isArray(companyResponse.data) ? companyResponse.data : []);
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
+      // Set default values on error
+      setCompanyStats([]);
+      setRevenueData([]);
     } finally {
       setLoading(false);
     }
@@ -179,7 +183,7 @@ function SuperAdminDashboard() {
           <h2 className="text-xl font-bold text-gray-900 mb-6">Top Companies by Users</h2>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={companyStats.slice(0, 5)}>
+              <BarChart data={Array.isArray(companyStats) ? companyStats.slice(0, 5) : []}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />

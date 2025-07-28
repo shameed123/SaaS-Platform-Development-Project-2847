@@ -34,23 +34,23 @@ function CompanyManagement() {
   const handleCreateCompany = async () => {
     try {
       await companyAPI.createCompany(newCompany);
-      toast.success(`${settings.companyLabel} created successfully!`);
+              toast.success(`${settings.companyLabel || 'Company'} created successfully!`);
       setShowCreateModal(false);
       setNewCompany({ name: '', slug: '' });
       fetchCompanies();
     } catch (error) {
-      toast.error(error.response?.data?.message || `Failed to create ${settings.companyLabel.toLowerCase()}`);
+              toast.error(error.response?.data?.message || `Failed to create ${settings.companyLabel?.toLowerCase() || 'company'}`);
     }
   };
 
   const handleDeleteCompany = async (companyId) => {
-    if (window.confirm(`Are you sure you want to delete this ${settings.companyLabel.toLowerCase()}?`)) {
+          if (window.confirm(`Are you sure you want to delete this ${settings.companyLabel?.toLowerCase() || 'company'}?`)) {
       try {
         await companyAPI.deleteCompany(companyId);
-        toast.success(`${settings.companyLabel} deleted successfully`);
+                  toast.success(`${settings.companyLabel || 'Company'} deleted successfully`);
         fetchCompanies();
       } catch (error) {
-        toast.error(`Failed to delete ${settings.companyLabel.toLowerCase()}`);
+        toast.error(`Failed to delete ${settings.companyLabel?.toLowerCase() || 'company'}`);
       }
     }
   };
@@ -77,9 +77,9 @@ function CompanyManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{settings.companyLabel} Management</h1>
+                      <h1 className="text-2xl font-bold text-gray-900">{settings.companyLabel || 'Company'} Management</h1>
           <p className="text-gray-600">
-            Manage all {settings.companyLabel.toLowerCase()}s on the platform
+            Manage all {settings.companyLabel?.toLowerCase() || 'company'}s on the platform
           </p>
         </div>
         <button
@@ -87,7 +87,7 @@ function CompanyManagement() {
           className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
         >
           <SafeIcon icon={FiPlus} className="w-4 h-4" />
-          <span>Create {settings.companyLabel}</span>
+                        <span>Create {settings.companyLabel || 'Company'}</span>
         </button>
       </div>
 
@@ -97,7 +97,7 @@ function CompanyManagement() {
           <SafeIcon icon={FiSearch} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             type="text"
-            placeholder={`Search ${settings.companyLabel.toLowerCase()}s...`}
+                            placeholder={`Search ${settings.companyLabel?.toLowerCase() || 'company'}s...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -176,11 +176,11 @@ function CompanyManagement() {
       {filteredCompanies.length === 0 && (
         <div className="text-center py-12">
           <SafeIcon icon={FiBuilding} className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No {settings.companyLabel.toLowerCase()}s found</h3>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">No {settings.companyLabel?.toLowerCase() || 'company'}s found</h3>
           <p className="text-gray-500">
             {searchTerm 
               ? 'Try adjusting your search criteria.'
-              : `Get started by creating your first ${settings.companyLabel.toLowerCase()}.`
+              : `Get started by creating your first ${settings.companyLabel?.toLowerCase() || 'company'}.`
             }
           </p>
         </div>
@@ -194,12 +194,12 @@ function CompanyManagement() {
             animate={{ opacity: 1, scale: 1 }}
             className="bg-white rounded-xl p-6 max-w-md w-full mx-4"
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Create {settings.companyLabel}</h3>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-4">Create {settings.companyLabel || 'Company'}</h3>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {settings.companyLabel} Name
+                  {settings.companyLabel || 'Company'} Name
                 </label>
                 <input
                   type="text"
@@ -245,7 +245,7 @@ function CompanyManagement() {
                 disabled={!newCompany.name || !newCompany.slug}
                 className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create {settings.companyLabel}
+                Create {settings.companyLabel || 'Company'}
               </button>
             </div>
           </motion.div>
