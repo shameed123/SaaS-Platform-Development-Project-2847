@@ -141,7 +141,7 @@
 }*/
 
 /* warm-gold and soft-brown palette */
-/* @layer base {
+/*@layer base {
   :root {
     --color-soft-50: #fffbea;
     --color-soft-100: #fff3c4;
@@ -165,7 +165,7 @@
     --color-warm-800: #4e342e;
     --color-warm-900: #3e2723;
   }
-}
+}*/
 
 /* cooler, neon-mint and pastel-cyan palette */
 /* @layer base {
@@ -195,7 +195,7 @@
 } */
 
 /* warm-muted-rose and soft-dusty-plum palette */
-/* @layer base {
+/*@layer base {
   :root {
     --color-warm-50: #fdfafb;
     --color-warm-100: #f7f0f2;

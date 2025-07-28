@@ -168,9 +168,9 @@ function AnalyticsPage() {
                 <Line 
                   type="monotone" 
                   dataKey="users" 
-                  stroke="#3b82f6" 
+                  stroke="var(--color-warm-500)" 
                   strokeWidth={3}
-                  dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                  dot={{ fill: 'var(--color-warm-500)', strokeWidth: 2, r: 4 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -244,7 +244,7 @@ function AnalyticsPage() {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip formatter={(value) => [`$${value}`, 'Revenue']} />
-                <Bar dataKey="revenue" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="revenue" fill="var(--color-warm-500)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
