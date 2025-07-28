@@ -14,6 +14,8 @@ function CompanyManagement() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState(null);
   const [newCompany, setNewCompany] = useState({ name: '', slug: '' });
 
   useEffect(() => {
@@ -57,6 +59,11 @@ function CompanyManagement() {
 
   const generateSlug = (name) => {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  };
+
+  const handleViewDetails = (company) => {
+    setSelectedCompany(company);
+    setShowDetailsModal(true);
   };
 
   const filteredCompanies = companies.filter(company => 
@@ -164,7 +171,10 @@ function CompanyManagement() {
                 }`}>
                   {company.subscription?.plan || 'Free'}
                 </span>
-                <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                <button 
+                  onClick={() => handleViewDetails(company)}
+                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                >
                   View Details
                 </button>
               </div>
@@ -246,6 +256,134 @@ function CompanyManagement() {
                 className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Create {settings.companyLabel || 'Company'}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Company Details Modal */}
+      {showDetailsModal && selectedCompany && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">
+                {selectedCompany.name} Details
+              </h3>
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <SafeIcon icon={FiIcons.FiX} className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Name
+                  </label>
+                  <p className="text-sm text-gray-900">{selectedCompany.name}</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Domain
+                  </label>
+                  <p className="text-sm text-gray-900">{selectedCompany.domain || 'Not set'}</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Industry
+                  </label>
+                  <p className="text-sm text-gray-900">{selectedCompany.industry || 'Not specified'}</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Size
+                  </label>
+                  <p className="text-sm text-gray-900">{selectedCompany.size || 'Not specified'}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Total Users
+                  </label>
+                  <p className="text-sm text-gray-900">{selectedCompany.userCount || 0} users</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Subscription Plan
+                  </label>
+                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                    selectedCompany.subscription_plan === 'pro' 
+                      ? 'bg-blue-100 text-blue-800' 
+                      : selectedCompany.subscription_plan === 'enterprise'
+                      ? 'bg-purple-100 text-purple-800'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {selectedCompany.subscription_plan || 'Free'}
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Subscription Status
+                  </label>
+                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                    selectedCompany.subscription_status === 'active' 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {selectedCompany.subscription_status || 'Inactive'}
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Created Date
+                  </label>
+                  <p className="text-sm text-gray-900">
+                    {new Date(selectedCompany.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Max Users Allowed
+                  </label>
+                  <p className="text-sm text-gray-900">
+                    {selectedCompany.max_users === -1 ? 'Unlimited' : selectedCompany.max_users || 3}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  // TODO: Implement edit functionality
+                  setShowDetailsModal(false);
+                }}
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+              >
+                Edit {settings.companyLabel || 'Company'}
               </button>
             </div>
           </motion.div>
