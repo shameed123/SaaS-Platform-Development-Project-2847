@@ -106,7 +106,7 @@ function ResetPasswordPage() {
                     }
                   })}
                   type={showPassword ? 'text' : 'password'}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                   placeholder="Enter your new password"
                 />
                 <button
@@ -139,7 +139,7 @@ function ResetPasswordPage() {
                     validate: value => value === password || 'Passwords do not match'
                   })}
                   type={showConfirmPassword ? 'text' : 'password'}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                   placeholder="Confirm your new password"
                 />
                 <button

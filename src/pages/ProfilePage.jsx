@@ -139,7 +139,7 @@ function ProfilePage() {
                         required: 'First name is required'
                       })}
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                     />
                     {profileErrors.firstName && (
                       <p className="mt-1 text-sm text-red-600">{profileErrors.firstName.message}</p>
@@ -155,7 +155,7 @@ function ProfilePage() {
                         required: 'Last name is required'
                       })}
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                     />
                     {profileErrors.lastName && (
                       <p className="mt-1 text-sm text-red-600">{profileErrors.lastName.message}</p>
@@ -176,7 +176,7 @@ function ProfilePage() {
                       }
                     })}
                     type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
                   />
                   {profileErrors.email && (
                     <p className="mt-1 text-sm text-red-600">{profileErrors.email.message}</p>
@@ -214,7 +214,7 @@ function ProfilePage() {
                         required: 'Current password is required'
                       })}
                       type={showCurrentPassword ? 'text' : 'password'}
-                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg input-popup"
                     />
                     <button
                       type="button"
@@ -246,7 +246,7 @@ function ProfilePage() {
                         }
                       })}
                       type={showNewPassword ? 'text' : 'password'}
-                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg input-popup"
                     />
                     <button
                       type="button"
@@ -275,7 +275,7 @@ function ProfilePage() {
                         validate: value => value === newPassword || 'Passwords do not match'
                       })}
                       type={showConfirmPassword ? 'text' : 'password'}
-                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg input-popup"
                     />
                     <button
                       type="button"

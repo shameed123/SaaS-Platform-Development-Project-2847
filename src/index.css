@@ -27,7 +27,7 @@
     --color-soft-800: #451b91;
     --color-soft-900: #37166f;
   }
-}
+}*/
 
 /* warm-purple and soft-pink palette (good purple pink color scheme) */
 /*
@@ -55,7 +55,7 @@
     --color-soft-800: #be185d;
     --color-soft-900: #9d174d;
   }
-}
+}*/
 
 
 /* warm-petal-rose and soft-soft-honey palette (good orange pinkish color scheme) */
@@ -83,7 +83,7 @@
     --color-soft-800: #8f481a;
     --color-soft-900: #723816;
   }
-}*/
+}
 
 
 /* warm-sunlit-mint and soft-soft-sky palette (good blue green color scheme) */
@@ -457,3 +457,58 @@ body {
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+
+/* Custom input styling with pop-up effect */
+.input-field {
+  @apply block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl transition-all duration-300 ease-out;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 134, 97, 0.2);
+  transform: translateY(-2px);
+}
+
+.input-field:focus-within {
+  border-color: transparent;
+}
+
+/* Password input specific styling */
+.input-field-password {
+  @apply block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl transition-all duration-300 ease-out;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.input-field-password:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 134, 97, 0.2);
+  transform: translateY(-2px);
+}
+
+.input-field-password:focus-within {
+  border-color: transparent;
+}
+
+/* Generic pop-up input styling that can be combined with other classes */
+.input-popup {
+  transition: all 0.3s ease-out;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.input-popup:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 134, 97, 0.2);
+  transform: translateY(-2px);
+}
+
+.input-popup:focus-within {
+  border-color: transparent;
+}
+

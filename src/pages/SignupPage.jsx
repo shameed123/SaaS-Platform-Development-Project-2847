@@ -74,7 +74,7 @@ function SignupPage() {
                       required: 'First name is required'
                     })}
                     type="text"
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                     placeholder="John"
                   />
                 </div>
@@ -96,7 +96,7 @@ function SignupPage() {
                       required: 'Last name is required'
                     })}
                     type="text"
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                     placeholder="Doe"
                   />
                 </div>
@@ -123,7 +123,7 @@ function SignupPage() {
                     }
                   })}
                   type="email"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                   placeholder="john@example.com"
                 />
               </div>
@@ -145,7 +145,7 @@ function SignupPage() {
                     required: 'Company name is required'
                   })}
                   type="text"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                   placeholder="Acme Corp"
                 />
               </div>
@@ -171,7 +171,7 @@ function SignupPage() {
                     }
                   })}
                   type={showPassword ? 'text' : 'password'}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                   placeholder="Create a strong password"
                 />
                 <button
@@ -204,7 +204,7 @@ function SignupPage() {
                     validate: value => value === password || 'Passwords do not match'
                   })}
                   type={showConfirmPassword ? 'text' : 'password'}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-warm-500 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl input-popup transition-all duration-200"
                   placeholder="Confirm your password"
                 />
                 <button
