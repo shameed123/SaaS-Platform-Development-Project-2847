@@ -33,14 +33,14 @@ function EmailVerificationPage() {
           bgColor: 'bg-green-100',
           title: 'Email Verified!',
           message: 'Your email has been successfully verified. You can now sign in to your account.',
-          action: (
-            <Link
-              to="/login"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
-            >
-              Sign In
-            </Link>
-          )
+                      action: (
+              <Link
+                to="/login"
+                className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
+              >
+                Sign In
+              </Link>
+            )
         };
       case 'error':
         return {
@@ -49,40 +49,40 @@ function EmailVerificationPage() {
           bgColor: 'bg-red-100',
           title: 'Verification Failed',
           message: 'The verification link is invalid or has expired. Please request a new verification email.',
-          action: (
-            <Link
-              to="/signup"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
-            >
-              Sign Up Again
-            </Link>
-          )
+                      action: (
+              <Link
+                to="/signup"
+                className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200"
+              >
+                Sign Up Again
+              </Link>
+            )
         };
-      default:
-        return {
-          icon: FiMail,
-          iconColor: 'text-blue-600',
-          bgColor: 'bg-blue-100',
-          title: token ? 'Verifying...' : 'Check Your Email',
-          message: token 
-            ? 'Please wait while we verify your email address.'
-            : 'We\'ve sent a verification email to your address. Please check your inbox and click the verification link.',
-          action: !token && (
-            <Link
-              to="/login"
-              className="text-blue-600 hover:text-blue-500 font-semibold transition-colors"
-            >
-              Back to Login
-            </Link>
-          )
-        };
+              default:
+          return {
+            icon: FiMail,
+            iconColor: 'text-teal-600',
+            bgColor: 'bg-teal-100',
+            title: token ? 'Verifying...' : 'Check Your Email',
+            message: token 
+              ? 'Please wait while we verify your email address.'
+              : 'We\'ve sent a verification email to your address. Please check your inbox and click the verification link.',
+            action: !token && (
+              <Link
+                to="/login"
+                className="text-teal-600 hover:text-teal-500 font-semibold transition-colors"
+              >
+                Back to Login
+              </Link>
+            )
+          };
     }
   };
 
   const content = getStatusContent();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -91,10 +91,10 @@ function EmailVerificationPage() {
       >
         <div className="text-center">
           <Link to="/" className="inline-flex items-center space-x-2 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center">
               <SafeIcon icon={FiZap} className="text-white text-lg" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
               SaaS Pro
             </span>
           </Link>

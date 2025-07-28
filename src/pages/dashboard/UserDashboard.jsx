@@ -26,26 +26,26 @@ function UserDashboard() {
       title: 'Member Since',
       value: new Date(user?.createdAt || Date.now()).toLocaleDateString(),
       icon: FiCalendar,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100'
+      color: 'text-teal-600',
+      bgColor: 'bg-teal-100'
     },
     {
       title: 'Last Login',
       value: 'Today',
       icon: FiClock,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100'
+      color: 'text-cyan-600',
+      bgColor: 'bg-cyan-100'
     }
   ];
 
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">
           Welcome back, {user?.firstName}!
         </h1>
-        <p className="text-blue-100">
+        <p className="text-teal-100">
           Here's what's happening with your account today.
         </p>
       </div>
@@ -84,8 +84,8 @@ function UserDashboard() {
           <h2 className="text-xl font-bold text-gray-900 mb-6">Profile Summary</h2>
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <SafeIcon icon={FiUser} className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
+                <SafeIcon icon={FiUser} className="w-5 h-5 text-teal-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Full Name</p>
@@ -96,8 +96,8 @@ function UserDashboard() {
             </div>
             
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                <SafeIcon icon={FiMail} className="w-5 h-5 text-purple-600" />
+              <div className="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
+                <SafeIcon icon={FiMail} className="w-5 h-5 text-cyan-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Email Address</p>
@@ -150,16 +150,16 @@ function UserDashboard() {
       >
         <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group">
-            <SafeIcon icon={FiUser} className="w-8 h-8 text-gray-400 group-hover:text-blue-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+          <button className="p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-teal-500 hover:bg-teal-50 transition-all duration-200 group">
+            <SafeIcon icon={FiUser} className="w-8 h-8 text-gray-400 group-hover:text-teal-500 mx-auto mb-2" />
+            <p className="text-sm font-medium text-gray-600 group-hover:text-teal-600">
               Update Profile
             </p>
           </button>
           
-          <button className="p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all duration-200 group">
-            <SafeIcon icon={FiMail} className="w-8 h-8 text-gray-400 group-hover:text-purple-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-600 group-hover:text-purple-600">
+          <button className="p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-cyan-500 hover:bg-cyan-50 transition-all duration-200 group">
+            <SafeIcon icon={FiMail} className="w-8 h-8 text-gray-400 group-hover:text-cyan-500 mx-auto mb-2" />
+            <p className="text-sm font-medium text-gray-600 group-hover:text-cyan-600">
               Contact Support
             </p>
           </button>

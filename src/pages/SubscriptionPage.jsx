@@ -101,7 +101,7 @@ function SubscriptionPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
       </div>
     );
   }
@@ -121,9 +121,9 @@ function SubscriptionPage() {
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Current Subscription</h2>
         
         {subscription ? (
-          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                              <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center">
                 <SafeIcon icon={FiCreditCard} className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -167,13 +167,13 @@ function SubscriptionPage() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`border-2 rounded-xl p-6 ${
                 plan.current
-                  ? 'border-blue-500 bg-blue-50'
+                  ? 'border-teal-500 bg-teal-50'
                   : 'border-gray-200 hover:border-gray-300'
               } transition-all duration-200`}
             >
               {plan.current && (
                 <div className="text-center mb-4">
-                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-teal-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                     Current Plan
                   </span>
                 </div>
@@ -199,7 +199,7 @@ function SubscriptionPage() {
               {!plan.current && plan.priceId && (
                 <button
                   onClick={() => handleUpgrade(plan.priceId)}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-200"
+                  className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-2 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-200"
                 >
                   Upgrade to {plan.name}
                 </button>
@@ -281,7 +281,7 @@ function SubscriptionPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-blue-600 hover:text-blue-900 flex items-center space-x-1">
+                      <button className="text-teal-600 hover:text-teal-900 flex items-center space-x-1">
                         <SafeIcon icon={FiDownload} className="w-4 h-4" />
                         <span>Download</span>
                       </button>

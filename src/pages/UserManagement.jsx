@@ -76,7 +76,7 @@ function UserManagement() {
       case 'super_admin':
         return 'bg-red-100 text-red-800';
       case 'admin':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-teal-100 text-teal-800';
       case 'user':
         return 'bg-green-100 text-green-800';
       default:
@@ -87,7 +87,7 @@ function UserManagement() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
       </div>
     );
   }
@@ -104,7 +104,7 @@ function UserManagement() {
         </div>
         <button
           onClick={() => setShowInviteModal(true)}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
+          className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
         >
           <SafeIcon icon={FiPlus} className="w-4 h-4" />
           <span>Invite User</span>
@@ -122,7 +122,7 @@ function UserManagement() {
                 placeholder="Search users..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -131,7 +131,7 @@ function UserManagement() {
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-transparent"
             >
               <option value="all">All Roles</option>
               <option value="user">Users</option>
@@ -179,7 +179,7 @@ function UserManagement() {
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-semibold">
                           {(user.firstName?.[0] || '')}{(user.lastName?.[0] || '')}
                         </span>
@@ -221,7 +221,7 @@ function UserManagement() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex items-center justify-end space-x-2">
-                      <button className="text-blue-600 hover:text-blue-900 p-1 rounded">
+                      <button className="text-teal-600 hover:text-teal-900 p-1 rounded">
                         <SafeIcon icon={FiEdit} className="w-4 h-4" />
                       </button>
                       <button className="text-green-600 hover:text-green-900 p-1 rounded">
@@ -274,7 +274,7 @@ function UserManagement() {
                   type="email"
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                   placeholder="user@example.com"
                 />
               </div>
@@ -286,7 +286,7 @@ function UserManagement() {
                 <select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 >
                   <option value="user">User</option>
                   {user?.role === 'super_admin' && <option value="admin">Admin</option>}
@@ -303,7 +303,7 @@ function UserManagement() {
               </button>
               <button
                 onClick={handleInviteUser}
-                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+                className="px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-lg hover:shadow-lg transition-all duration-200"
               >
                 Send Invitation
               </button>

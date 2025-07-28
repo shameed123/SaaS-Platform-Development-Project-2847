@@ -46,8 +46,8 @@ function AdminDashboard() {
       title: 'Total Users',
       value: stats.totalUsers,
       icon: FiUsers,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100',
+      color: 'text-teal-600',
+      bgColor: 'bg-teal-100',
       change: '+12%'
     },
     {
@@ -62,8 +62,8 @@ function AdminDashboard() {
       title: 'Monthly Revenue',
       value: `$${stats.monthlyRevenue}`,
       icon: FiDollarSign,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100',
+      color: 'text-cyan-600',
+      bgColor: 'bg-cyan-100',
       change: '+15%'
     }
   ];
@@ -73,14 +73,14 @@ function AdminDashboard() {
       title: 'Invite Users',
       description: 'Add new team members',
       icon: FiPlus,
-      color: 'blue',
+      color: 'teal',
       href: '/dashboard/users'
     },
     {
       title: 'View Analytics',
       description: 'Check detailed metrics',
       icon: FiEye,
-      color: 'purple',
+      color: 'cyan',
       href: '/dashboard/analytics'
     },
     {
@@ -95,7 +95,7 @@ function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
       </div>
     );
   }
@@ -103,11 +103,11 @@ function AdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">
           Admin Dashboard
         </h1>
-        <p className="text-blue-100">
+        <p className="text-teal-100">
           Manage your {settings.companyLabel?.toLowerCase() || 'company'} and track performance metrics.
         </p>
       </div>
@@ -180,20 +180,20 @@ function AdminDashboard() {
                 key={index}
                 to={action.href}
                 className={`block p-4 border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 group ${
-                  action.color === 'blue' ? 'hover:border-blue-500 hover:bg-blue-50' :
-                  action.color === 'purple' ? 'hover:border-purple-500 hover:bg-purple-50' :
+                  action.color === 'teal' ? 'hover:border-teal-500 hover:bg-teal-50' :
+                  action.color === 'cyan' ? 'hover:border-cyan-500 hover:bg-cyan-50' :
                   'hover:border-green-500 hover:bg-green-50'
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                    action.color === 'blue' ? 'bg-blue-100 group-hover:bg-blue-200' :
-                    action.color === 'purple' ? 'bg-purple-100 group-hover:bg-purple-200' :
+                    action.color === 'teal' ? 'bg-teal-100 group-hover:bg-teal-200' :
+                    action.color === 'cyan' ? 'bg-cyan-100 group-hover:bg-cyan-200' :
                     'bg-green-100 group-hover:bg-green-200'
                   }`}>
                     <SafeIcon icon={action.icon} className={`w-5 h-5 ${
-                      action.color === 'blue' ? 'text-blue-600' :
-                      action.color === 'purple' ? 'text-purple-600' :
+                      action.color === 'teal' ? 'text-teal-600' :
+                      action.color === 'cyan' ? 'text-cyan-600' :
                       'text-green-600'
                     }`} />
                   </div>
@@ -218,14 +218,14 @@ function AdminDashboard() {
           className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
         >
           <h2 className="text-xl font-bold text-gray-900 mb-6">Subscription Status</h2>
-          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl">
             <div>
               <p className="text-sm text-gray-600">Current Plan</p>
               <p className="text-xl font-bold text-gray-900 capitalize">{stats.subscriptionStatus}</p>
             </div>
             <Link
               to="/dashboard/subscription"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-200"
+              className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-200"
             >
               Manage
             </Link>
