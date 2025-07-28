@@ -8,7 +8,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const companyRoutes = require('./routes/companies');
-const subscriptionRoutes = require('./routes/subscriptions');
+const subscriptionRoutes = require('./routes/subscription');
 const analyticsRoutes = require('./routes/analytics');
 const settingsRoutes = require('./routes/settings');
 
@@ -52,7 +52,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', authenticateToken, userRoutes);
 app.use('/api/companies', authenticateToken, companyRoutes);
-app.use('/api/subscriptions', authenticateToken, subscriptionRoutes);
+app.use('/api/subscription', authenticateToken, subscriptionRoutes);
 app.use('/api/analytics', authenticateToken, analyticsRoutes);
 app.use('/api/settings', authenticateToken, settingsRoutes);
 

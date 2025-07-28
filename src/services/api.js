@@ -9,7 +9,7 @@ import {
 } from './mockApi';
 
 // Determine if we're using the mock API or a real backend
-const USE_MOCK_API = true;
+const USE_MOCK_API = false;
 
 const API_BASE_URL = 'http://localhost:3001/api';
 
