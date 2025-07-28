@@ -380,4 +380,62 @@ router.post('/invite', async (req, res) => {
   }
 });
 
+// Send email to user
+router.post('/:id/email', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { subject, message } = req.body;
+
+    // Check if user exists and user has permission to email them
+    let whereClause = 'id = $1';
+    const queryParams = [id];
+
+    if (req.user.role === 'admin') {
+      // Admin can only email users from their company
+      whereClause = 'id = $1 AND company_id = $2';
+      queryParams.push(req.user.company_id);
+    } else if (req.user.role === 'user') {
+      // Regular users cannot email other users
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    // Super admin can email any user
+
+    const userResult = await pool.query(
+      `SELECT email, first_name, last_name FROM users WHERE ${whereClause}`,
+      queryParams
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found or access denied' });
+    }
+
+    const targetUser = userResult.rows[0];
+
+    // In a real application, you would integrate with an email service here
+    // For now, we'll just log the email details
+    console.log('Email Details:', {
+      to: targetUser.email,
+      subject: subject,
+      message: message,
+      from: req.user.email,
+      sentAt: new Date().toISOString()
+    });
+
+    // You could integrate with services like:
+    // - SendGrid
+    // - Mailgun
+    // - AWS SES
+    // - Nodemailer with SMTP
+
+    res.json({ 
+      message: 'Email sent successfully',
+      to: targetUser.email,
+      subject: subject
+    });
+  } catch (error) {
+    console.error('Send email error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router; 

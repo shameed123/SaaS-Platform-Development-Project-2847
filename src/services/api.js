@@ -49,6 +49,7 @@ export const userAPI = USE_MOCK_API
       updateUser: (id, userData) => api.put(`/users/${id}`, userData),
       deleteUser: (id) => api.delete(`/users/${id}`),
       inviteUser: (data) => api.post('/users/invite', data),
+      sendEmail: (id, emailData) => api.post(`/users/${id}/email`, emailData),
       updateProfile: (userData) => api.put(`/users/profile`, userData),
       updatePassword: (passwordData) => api.put(`/users/password`, passwordData),
     };

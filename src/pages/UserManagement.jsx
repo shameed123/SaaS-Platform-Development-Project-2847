@@ -19,6 +19,23 @@ function UserManagement() {
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState('user');
+  
+  // New state for edit functionality
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [editForm, setEditForm] = useState({
+    firstName: '',
+    lastName: '',
+    role: 'user'
+  });
+  
+  // New state for email functionality
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [emailingUser, setEmailingUser] = useState(null);
+  const [emailForm, setEmailForm] = useState({
+    subject: '',
+    message: ''
+  });
 
   useEffect(() => {
     fetchUsers();
@@ -52,6 +69,12 @@ function UserManagement() {
   };
 
   const handleDeleteUser = async (userId) => {
+    // Prevent deleting yourself
+    if (userId === user?.id) {
+      toast.error('You cannot delete your own account.');
+      return;
+    }
+    
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
         await userAPI.deleteUser(userId);
@@ -60,6 +83,67 @@ function UserManagement() {
       } catch (error) {
         toast.error('Failed to delete user');
       }
+    }
+  };
+
+  // New function to handle edit user
+  const handleEditUser = (userToEdit) => {
+    // Prevent editing yourself
+    if (userToEdit.id === user?.id) {
+      toast.error('You cannot edit your own profile from this page. Use the profile settings instead.');
+      return;
+    }
+    
+    setEditingUser(userToEdit);
+    setEditForm({
+      firstName: userToEdit.firstName || '',
+      lastName: userToEdit.lastName || '',
+      role: userToEdit.role || 'user'
+    });
+    setShowEditModal(true);
+  };
+
+  // New function to save edited user
+  const handleSaveEdit = async () => {
+    try {
+      await userAPI.updateUser(editingUser.id, {
+        first_name: editForm.firstName,
+        last_name: editForm.lastName,
+        role: editForm.role
+      });
+      toast.success('User updated successfully');
+      setShowEditModal(false);
+      setEditingUser(null);
+      setEditForm({ firstName: '', lastName: '', role: 'user' });
+      fetchUsers();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to update user');
+    }
+  };
+
+  // New function to handle email user
+  const handleEmailUser = (user) => {
+    setEmailingUser(user);
+    setEmailForm({
+      subject: `Message from ${settings.companyLabel || 'Your Company'}`,
+      message: `Hello ${user.firstName || user.email},\n\n`
+    });
+    setShowEmailModal(true);
+  };
+
+  // New function to send email
+  const handleSendEmail = async () => {
+    try {
+      await userAPI.sendEmail(emailingUser.id, {
+        subject: emailForm.subject,
+        message: emailForm.message
+      });
+      toast.success(`Email sent to ${emailingUser.email}`);
+      setShowEmailModal(false);
+      setEmailingUser(null);
+      setEmailForm({ subject: '', message: '' });
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to send email');
     }
   };
 
@@ -169,9 +253,9 @@ function UserManagement() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredUsers.map((user, index) => (
+              {filteredUsers.map((tableUser, index) => (
                 <motion.tr
-                  key={user.id}
+                  key={tableUser.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -181,55 +265,74 @@ function UserManagement() {
                     <div className="flex items-center">
                       <div className="w-10 h-10 bg-gradient-to-r from-warm-500 to-soft-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-semibold">
-                          {(user.firstName?.[0] || '')}{(user.lastName?.[0] || '')}
+                          {(tableUser.firstName?.[0] || '')}{(tableUser.lastName?.[0] || '')}
                         </span>
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
-                          {user.firstName || ''} {user.lastName || ''}
+                          {tableUser.firstName || ''} {tableUser.lastName || ''}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {user.email || ''}
+                          {tableUser.email || ''}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
-                      {user.companyName || 'No Company'}
+                      {tableUser.companyName || 'No Company'}
                     </div>
-                    {user.companyDomain && (
+                    {tableUser.companyDomain && (
                       <div className="text-sm text-gray-500">
-                        {user.companyDomain}
+                        {tableUser.companyDomain}
                       </div>
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role || 'user')}`}>
-                      {(user.role || 'user').replace('_', ' ')}
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(tableUser.role || 'user')}`}>
+                      {(tableUser.role || 'user').replace('_', ' ')}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      user.emailVerified ? 'bg-soft-100 text-soft-800' : 'bg-yellow-100 text-yellow-800'
+                      tableUser.emailVerified ? 'bg-soft-100 text-soft-800' : 'bg-yellow-100 text-yellow-800'
                     }`}>
-                      {user.emailVerified ? 'Active' : 'Pending'}
+                      {tableUser.emailVerified ? 'Active' : 'Pending'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+                    {tableUser.createdAt ? new Date(tableUser.createdAt).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex items-center justify-end space-x-2">
-                      <button className="text-warm-600 hover:text-warm-900 p-1 rounded">
+                      <button 
+                        onClick={() => handleEditUser(tableUser)}
+                        className={`p-1 rounded transition-colors ${
+                          tableUser.id === user?.id 
+                            ? 'text-gray-400 cursor-not-allowed' 
+                            : 'text-warm-600 hover:text-warm-900'
+                        }`}
+                        title={tableUser.id === user?.id ? "You cannot edit your own profile" : "Edit user"}
+                        disabled={tableUser.id === user?.id}
+                      >
                         <SafeIcon icon={FiEdit} className="w-4 h-4" />
                       </button>
-                      <button className="text-soft-600 hover:text-soft-900 p-1 rounded">
+                      <button 
+                        onClick={() => handleEmailUser(tableUser)}
+                        className="text-soft-600 hover:text-soft-900 p-1 rounded"
+                        title="Send email"
+                      >
                         <SafeIcon icon={FiMail} className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => handleDeleteUser(user.id)}
-                        className="text-red-600 hover:text-red-900 p-1 rounded"
+                        onClick={() => handleDeleteUser(tableUser.id)}
+                        className={`p-1 rounded transition-colors ${
+                          tableUser.id === user?.id 
+                            ? 'text-gray-400 cursor-not-allowed' 
+                            : 'text-red-600 hover:text-red-900'
+                        }`}
+                        title={tableUser.id === user?.id ? "You cannot delete your own account" : "Delete user"}
+                        disabled={tableUser.id === user?.id}
                       >
                         <SafeIcon icon={FiTrash} className="w-4 h-4" />
                       </button>
@@ -306,6 +409,155 @@ function UserManagement() {
                 className="px-4 py-2 bg-gradient-to-r from-warm-500 to-soft-500 text-white rounded-lg hover:shadow-lg transition-all duration-200"
               >
                 Send Invitation
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {showEditModal && editingUser && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-xl p-6 max-w-md w-full mx-4"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Edit User</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  value={editForm.firstName}
+                  onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
+                  placeholder="First name"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  value={editForm.lastName}
+                  onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
+                  placeholder="Last name"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Role
+                </label>
+                <select
+                  value={editForm.role}
+                  onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
+                >
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                  {user?.role === 'super_admin' && <option value="super_admin">Super Admin</option>}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowEditModal(false);
+                  setEditingUser(null);
+                  setEditForm({ firstName: '', lastName: '', role: 'user' });
+                }}
+                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                className="px-4 py-2 bg-gradient-to-r from-warm-500 to-soft-500 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+              >
+                Save Changes
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Email User Modal */}
+      {showEmailModal && emailingUser && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-xl p-6 max-w-lg w-full mx-4"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Send Email to {emailingUser.firstName || emailingUser.email}
+            </h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  To
+                </label>
+                <input
+                  type="email"
+                  value={emailingUser.email}
+                  disabled
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup bg-gray-50"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  value={emailForm.subject}
+                  onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
+                  placeholder="Email subject"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Message
+                </label>
+                <textarea
+                  value={emailForm.message}
+                  onChange={(e) => setEmailForm({ ...emailForm, message: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg input-popup"
+                  placeholder="Your message..."
+                  rows={6}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowEmailModal(false);
+                  setEmailingUser(null);
+                  setEmailForm({ subject: '', message: '' });
+                }}
+                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSendEmail}
+                className="px-4 py-2 bg-gradient-to-r from-warm-500 to-soft-500 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+              >
+                Send Email
               </button>
             </div>
           </motion.div>
