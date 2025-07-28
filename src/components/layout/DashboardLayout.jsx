@@ -77,10 +77,10 @@ function DashboardLayout({ children }) {
           {/* Header */}
           <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-warm-500 to-soft-500 rounded-lg flex items-center justify-center">
                 <SafeIcon icon={FiZap} className="text-white text-sm" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-warm-500 to-soft-500 bg-clip-text text-transparent">
                 SaaS Pro
               </span>
             </Link>
@@ -103,7 +103,7 @@ function DashboardLayout({ children }) {
                       to={item.href}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                         isActive
-                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                          ? 'bg-gradient-to-r from-warm-500 to-soft-500 text-white shadow-lg'
                           : 'text-gray-700 hover:bg-gray-100'
                       }`}
                       onClick={() => setSidebarOpen(false)}
@@ -120,7 +120,7 @@ function DashboardLayout({ children }) {
           {/* User section */}
           <div className="p-4 border-t border-gray-200">
             <div className="flex items-center space-x-3 px-4 py-3 bg-gray-50 rounded-xl">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-warm-500 to-soft-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-sm font-semibold">
                   {user?.firstName?.[0]}{user?.lastName?.[0]}
                 </span>
@@ -166,7 +166,7 @@ function DashboardLayout({ children }) {
                 </button>
                 
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-gradient-to-r from-warm-500 to-soft-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">
                       {user?.firstName?.[0]}{user?.lastName?.[0]}
                     </span>

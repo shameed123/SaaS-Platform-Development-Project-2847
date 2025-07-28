@@ -65,8 +65,8 @@ function SettingsPage() {
           className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
         >
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <SafeIcon icon={FiSettings} className="w-5 h-5 text-blue-600" />
+                    <div className="w-10 h-10 bg-warm-100 rounded-lg flex items-center justify-center">
+          <SafeIcon icon={FiSettings} className="w-5 h-5 text-warm-600" />
             </div>
             <h2 className="text-xl font-semibold text-gray-900">General Settings</h2>
           </div>
@@ -80,7 +80,7 @@ function SettingsPage() {
                 type="text"
                 value={formData.companyLabel}
                 onChange={(e) => handleInputChange('companyLabel', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                 placeholder="e.g., Company, Team, Organization"
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -92,14 +92,14 @@ function SettingsPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Max Admins per {formData.companyLabel}
               </label>
-              <input
-                type="number"
-                value={formData.maxAdminsPerCompany}
-                onChange={(e) => handleInputChange('maxAdminsPerCompany', parseInt(e.target.value) || 0)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="0 for unlimited"
-                min="0"
-              />
+                              <input
+                  type="number"
+                  value={formData.maxAdminsPerCompany}
+                  onChange={(e) => handleInputChange('maxAdminsPerCompany', parseInt(e.target.value) || 0)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
+                  placeholder="0 for unlimited"
+                  min="0"
+                />
               <p className="text-xs text-gray-500 mt-1">
                 Set to 0 for unlimited admins
               </p>
@@ -115,8 +115,8 @@ function SettingsPage() {
           className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
         >
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <SafeIcon icon={FiDollarSign} className="w-5 h-5 text-purple-600" />
+                    <div className="w-10 h-10 bg-soft-100 rounded-lg flex items-center justify-center">
+          <SafeIcon icon={FiDollarSign} className="w-5 h-5 text-soft-600" />
             </div>
             <h2 className="text-xl font-semibold text-gray-900">Plan Features</h2>
           </div>
@@ -134,7 +134,7 @@ function SettingsPage() {
                     type="number"
                     value={formData.planFeatures?.free?.maxUsers || 3}
                     onChange={(e) => handlePlanFeatureChange('free', 'maxUsers', parseInt(e.target.value) || 0)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                     min="1"
                   />
                 </div>
@@ -145,7 +145,7 @@ function SettingsPage() {
                   <select
                     value={formData.planFeatures?.free?.analytics || 'basic'}
                     onChange={(e) => handlePlanFeatureChange('free', 'analytics', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                   >
                     <option value="basic">Basic</option>
                     <option value="advanced">Advanced</option>
@@ -156,7 +156,7 @@ function SettingsPage() {
                     type="checkbox"
                     checked={formData.planFeatures?.free?.emailSupport || false}
                     onChange={(e) => handlePlanFeatureChange('free', 'emailSupport', e.target.checked)}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-warm-600 focus:ring-warm-500 border-gray-300 rounded"
                   />
                   <label className="ml-2 block text-sm text-gray-700">
                     Email Support
@@ -167,7 +167,7 @@ function SettingsPage() {
                     type="checkbox"
                     checked={formData.planFeatures?.free?.customBranding || false}
                     onChange={(e) => handlePlanFeatureChange('free', 'customBranding', e.target.checked)}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-warm-600 focus:ring-warm-500 border-gray-300 rounded"
                   />
                   <label className="ml-2 block text-sm text-gray-700">
                     Custom Branding
@@ -188,7 +188,7 @@ function SettingsPage() {
                     type="number"
                     value={formData.planFeatures?.pro?.maxUsers || 100}
                     onChange={(e) => handlePlanFeatureChange('pro', 'maxUsers', parseInt(e.target.value) || 0)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                     min="1"
                   />
                 </div>
@@ -199,7 +199,7 @@ function SettingsPage() {
                   <select
                     value={formData.planFeatures?.pro?.analytics || 'advanced'}
                     onChange={(e) => handlePlanFeatureChange('pro', 'analytics', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                   >
                     <option value="basic">Basic</option>
                     <option value="advanced">Advanced</option>
@@ -210,7 +210,7 @@ function SettingsPage() {
                     type="checkbox"
                     checked={formData.planFeatures?.pro?.emailSupport || true}
                     onChange={(e) => handlePlanFeatureChange('pro', 'emailSupport', e.target.checked)}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-warm-600 focus:ring-warm-500 border-gray-300 rounded"
                   />
                   <label className="ml-2 block text-sm text-gray-700">
                     Email Support
@@ -221,7 +221,7 @@ function SettingsPage() {
                     type="checkbox"
                     checked={formData.planFeatures?.pro?.customBranding || true}
                     onChange={(e) => handlePlanFeatureChange('pro', 'customBranding', e.target.checked)}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-warm-600 focus:ring-warm-500 border-gray-300 rounded"
                   />
                   <label className="ml-2 block text-sm text-gray-700">
                     Custom Branding
@@ -255,7 +255,7 @@ function SettingsPage() {
                 type="number"
                 value={formData.passwordMinLength || 8}
                 onChange={(e) => handleInputChange('passwordMinLength', parseInt(e.target.value) || 8)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                 min="6"
                 max="32"
               />
@@ -269,7 +269,7 @@ function SettingsPage() {
                 type="number"
                 value={formData.sessionTimeout || 60}
                 onChange={(e) => handleInputChange('sessionTimeout', parseInt(e.target.value) || 60)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-500 focus:border-transparent"
                 min="5"
                 max="1440"
               />
@@ -282,7 +282,7 @@ function SettingsPage() {
                 type="checkbox"
                 checked={formData.requireEmailVerification || true}
                 onChange={(e) => handleInputChange('requireEmailVerification', e.target.checked)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-warm-600 focus:ring-warm-500 border-gray-300 rounded"
               />
               <label className="ml-2 block text-sm text-gray-700">
                 Require email verification for new accounts
@@ -294,7 +294,7 @@ function SettingsPage() {
                 type="checkbox"
                 checked={formData.enableTwoFactor || false}
                 onChange={(e) => handleInputChange('enableTwoFactor', e.target.checked)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-warm-600 focus:ring-warm-500 border-gray-300 rounded"
               />
               <label className="ml-2 block text-sm text-gray-700">
                 Enable two-factor authentication option
@@ -308,7 +308,7 @@ function SettingsPage() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                            className="bg-gradient-to-r from-warm-500 to-soft-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
           >
             <SafeIcon icon={FiSave} className="w-4 h-4" />
             <span>{loading ? 'Saving...' : 'Save Settings'}</span>
