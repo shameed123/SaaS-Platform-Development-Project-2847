@@ -3,12 +3,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { pool } = require('../database/connection');
 const { body, validationResult } = require('express-validator');
+const { sendPasswordResetEmail, sendEmail } = require('../services/emailService');
 
 const router = express.Router();
 
 // Login route
 router.post('/login', [
-  body('email').isEmail().normalizeEmail(),
+  body('email').isEmail(),
   body('password').isLength({ min: 1 })
 ], async (req, res) => {
   try {
@@ -19,10 +20,13 @@ router.post('/login', [
 
     const { email, password } = req.body;
 
+    // Normalize email to match invitation acceptance behavior
+    const normalizedEmail = email.toLowerCase().trim();
+
     // Find user by email
     const userResult = await pool.query(
       'SELECT * FROM users WHERE email = $1',
-      [email]
+      [normalizedEmail]
     );
 
     if (userResult.rows.length === 0) {
@@ -289,10 +293,21 @@ router.post('/forgot-password', [
       [resetToken, email]
     );
 
-    // In a real app, send email here
-    console.log(`Password reset token for ${email}: ${resetToken}`);
-
-    res.json({ message: 'Password reset email sent' });
+    // Send password reset email
+    try {
+      await sendPasswordResetEmail(email, resetToken);
+      res.json({ message: 'Password reset email sent' });
+    } catch (emailError) {
+      console.error('Failed to send password reset email:', emailError);
+      
+      // Clear the reset token if email fails
+      await pool.query(
+        'UPDATE users SET reset_password_token = NULL, reset_password_expires = NULL WHERE email = $1',
+        [email]
+      );
+      
+      res.status(500).json({ message: 'Failed to send password reset email. Please try again.' });
+    }
 
   } catch (error) {
     console.error('Forgot password error:', error);
@@ -381,6 +396,185 @@ router.post('/verify-email', [
   } catch (error) {
     console.error('Email verification error:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Accept invitation route
+router.post('/accept-invitation', [
+  body('token').isLength({ min: 1 }),
+  body('password').isLength({ min: 8 }),
+  body('firstName').isLength({ min: 1 }),
+  body('lastName').isLength({ min: 1 })
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: 'Invalid input data', errors: errors.array() });
+    }
+
+    const { token, password, firstName, lastName } = req.body;
+
+    // Find invitation
+    const invitationResult = await pool.query(
+      `SELECT ui.*, c.name as company_name 
+       FROM user_invitations ui 
+       LEFT JOIN companies c ON ui.company_id = c.id 
+       LEFT JOIN users u ON ui.invited_by = u.id
+       WHERE ui.token = $1 AND ui.expires_at > NOW() AND ui.accepted_at IS NULL`,
+      [token]
+    );
+
+    if (invitationResult.rows.length === 0) {
+      return res.status(400).json({ message: 'Invalid or expired invitation' });
+    }
+
+    const invitation = invitationResult.rows[0];
+
+    // Normalize the email to match login behavior
+    const normalizedEmail = invitation.email.toLowerCase().trim();
+
+    // Check if user already exists
+    const existingUser = await pool.query(
+      'SELECT id FROM users WHERE email = $1',
+      [normalizedEmail]
+    );
+
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Start transaction
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+
+      // Create user with normalized email
+      const userResult = await client.query(
+        `INSERT INTO users (email, password_hash, first_name, last_name, role, email_verified, company_id) 
+         VALUES ($1, $2, $3, $4, $5, true, $6) RETURNING *`,
+        [normalizedEmail, hashedPassword, firstName, lastName, invitation.role, invitation.company_id]
+      );
+      
+      // Mark invitation as accepted
+      await client.query(
+        'UPDATE user_invitations SET accepted_at = NOW() WHERE id = $1',
+        [invitation.id]
+      );
+
+      await client.query('COMMIT');
+
+      const user = userResult.rows[0];
+
+      // Get company info
+      let company = null;
+      if (user.company_id) {
+        const companyResult = await client.query(
+          'SELECT id, name, domain, industry, size, subscription_status, subscription_plan FROM companies WHERE id = $1',
+          [user.company_id]
+        );
+        if (companyResult.rows.length > 0) {
+          company = companyResult.rows[0];
+        }
+      }
+
+      // Generate JWT token
+      const jwtToken = jwt.sign(
+        { 
+          id: user.id, 
+          email: user.email, 
+          role: user.role,
+          company_id: user.company_id 
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      res.status(201).json({
+        token: jwtToken,
+        user: {
+          id: user.id,
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          role: user.role,
+          email_verified: user.email_verified,
+          company_id: user.company_id,
+          company
+        }
+      });
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+
+  } catch (error) {
+    console.error('Accept invitation error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get invitation details route
+router.get('/invitation/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    // Find invitation
+    const invitationResult = await pool.query(
+      `SELECT ui.*, c.name as company_name, 
+              u.first_name as inviter_first_name, u.last_name as inviter_last_name
+       FROM user_invitations ui 
+       LEFT JOIN companies c ON ui.company_id = c.id 
+       LEFT JOIN users u ON ui.invited_by = u.id
+       WHERE ui.token = $1 AND ui.expires_at > NOW() AND ui.accepted_at IS NULL`,
+      [token]
+    );
+
+    if (invitationResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Invalid or expired invitation' });
+    }
+
+    const invitation = invitationResult.rows[0];
+
+    res.json({
+      email: invitation.email,
+      role: invitation.role,
+      companyName: invitation.company_name,
+      inviterName: `${invitation.inviter_first_name} ${invitation.inviter_last_name}`,
+      expiresAt: invitation.expires_at
+    });
+
+  } catch (error) {
+    console.error('Get invitation error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Test email configuration route (for development only)
+router.post('/test-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    // Send a test email
+    await sendEmail(email, 'Test Email from SaaS Platform', 
+      '<h2>Test Email</h2><p>This is a test email to verify your email configuration is working correctly.</p>');
+    
+    res.json({ message: 'Test email sent successfully' });
+  } catch (error) {
+    console.error('Test email error:', error);
+    res.status(500).json({ 
+      message: 'Failed to send test email', 
+      error: error.message 
+    });
   }
 });
 

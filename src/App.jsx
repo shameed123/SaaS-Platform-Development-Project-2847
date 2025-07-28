@@ -10,6 +10,7 @@ import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
+import InvitationPage from './pages/InvitationPage';
 import DashboardLayout from './components/layout/DashboardLayout';
 import UserDashboard from './pages/dashboard/UserDashboard';
 import AdminDashboard from './pages/dashboard/AdminDashboard';
@@ -137,6 +138,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/verify-email" element={<EmailVerificationPage />} />
+              <Route path="/invite" element={<InvitationPage />} />
               <Route
                 path="/dashboard/*"
                 element={

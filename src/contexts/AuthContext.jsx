@@ -49,6 +49,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginWithToken = async (token, user) => {
+    localStorage.setItem('token', token);
+    setUser(user);
+    return { success: true };
+  };
+
   const signup = async (userData) => {
     try {
       const response = await authAPI.signup(userData);
@@ -108,6 +114,7 @@ export const AuthProvider = ({ children }) => {
     setUser,
     loading,
     login,
+    loginWithToken,
     signup,
     logout,
     forgotPassword,

@@ -1,5 +1,6 @@
 const express = require('express');
 const { pool } = require('../database/connection');
+const { sendInvitationEmail, sendEmail } = require('../services/emailService');
 
 const router = express.Router();
 
@@ -360,20 +361,43 @@ router.post('/invite', async (req, res) => {
     // Generate invitation token
     const invitationToken = require('crypto').randomBytes(32).toString('hex');
 
+    // Get company and inviter information
+    const companyResult = await pool.query(
+      'SELECT name FROM companies WHERE id = $1',
+      [companyId]
+    );
+    
+    const inviterName = `${req.user.first_name} ${req.user.last_name}`;
+    const companyName = companyResult.rows[0]?.name || 'Your Company';
+
     // Create invitation record
     const result = await pool.query(
-      `INSERT INTO user_invitations (email, company_id, role, token, expires_at) 
-       VALUES ($1, $2, $3, $4, NOW() + INTERVAL '7 days') RETURNING *`,
-      [email, companyId, role || 'user', invitationToken]
+      `INSERT INTO user_invitations (email, company_id, role, token, expires_at, invited_by) 
+       VALUES ($1, $2, $3, $4, NOW() + INTERVAL '7 days', $5) RETURNING *`,
+      [email, companyId, role || 'user', invitationToken, req.user.id]
     );
 
-    // In a real app, send invitation email here
-    console.log(`Invitation token for ${email}: ${invitationToken}`);
-
-    res.status(201).json({ 
-      message: 'Invitation sent successfully',
-      invitation: result.rows[0]
-    });
+    // Send invitation email
+    try {
+      await sendInvitationEmail(email, invitationToken, companyName, inviterName);
+      
+      res.status(201).json({ 
+        message: 'Invitation sent successfully',
+        invitation: result.rows[0]
+      });
+    } catch (emailError) {
+      console.error('Failed to send invitation email:', emailError);
+      
+      // Delete the invitation record if email fails
+      await pool.query(
+        'DELETE FROM user_invitations WHERE id = $1',
+        [result.rows[0].id]
+      );
+      
+      res.status(500).json({ 
+        message: 'Failed to send invitation email. Please try again.' 
+      });
+    }
   } catch (error) {
     console.error('Invite user error:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -411,27 +435,21 @@ router.post('/:id/email', async (req, res) => {
 
     const targetUser = userResult.rows[0];
 
-    // In a real application, you would integrate with an email service here
-    // For now, we'll just log the email details
-    console.log('Email Details:', {
-      to: targetUser.email,
-      subject: subject,
-      message: message,
-      from: req.user.email,
-      sentAt: new Date().toISOString()
-    });
-
-    // You could integrate with services like:
-    // - SendGrid
-    // - Mailgun
-    // - AWS SES
-    // - Nodemailer with SMTP
-
-    res.json({ 
-      message: 'Email sent successfully',
-      to: targetUser.email,
-      subject: subject
-    });
+    // Send email using email service
+    try {
+      await sendEmail(targetUser.email, subject, message, req.user.email);
+      
+      res.json({ 
+        message: 'Email sent successfully',
+        to: targetUser.email,
+        subject: subject
+      });
+    } catch (emailError) {
+      console.error('Failed to send email:', emailError);
+      res.status(500).json({ 
+        message: 'Failed to send email. Please try again.' 
+      });
+    }
   } catch (error) {
     console.error('Send email error:', error);
     res.status(500).json({ message: 'Internal server error' });
