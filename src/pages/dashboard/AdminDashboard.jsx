@@ -1,0 +1,265 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import { useSettings } from '../../contexts/SettingsContext';
+import { analyticsAPI } from '../../services/api';
+import * as FiIcons from 'react-icons/fi';
+import SafeIcon from '../../common/SafeIcon';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const { FiUsers, FiDollarSign, FiTrendingUp, FiPlus, FiEye, FiCreditCard } = FiIcons;
+
+function AdminDashboard() {
+  const { user } = useAuth();
+  const { settings } = useSettings();
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    activeUsers: 0,
+    monthlyRevenue: 0,
+    subscriptionStatus: 'free'
+  });
+  const [userGrowth, setUserGrowth] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      const [statsResponse, growthResponse] = await Promise.all([
+        analyticsAPI.getDashboardStats(),
+        analyticsAPI.getUserGrowth()
+      ]);
+      setStats(statsResponse.data);
+      setUserGrowth(growthResponse.data);
+    } catch (error) {
+      console.error('Failed to fetch dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const quickStats = [
+    {
+      title: 'Total Users',
+      value: stats.totalUsers,
+      icon: FiUsers,
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-100',
+      change: '+12%'
+    },
+    {
+      title: 'Active Users',
+      value: stats.activeUsers,
+      icon: FiTrendingUp,
+      color: 'text-green-600',
+      bgColor: 'bg-green-100',
+      change: '+8%'
+    },
+    {
+      title: 'Monthly Revenue',
+      value: `$${stats.monthlyRevenue}`,
+      icon: FiDollarSign,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-100',
+      change: '+15%'
+    }
+  ];
+
+  const quickActions = [
+    {
+      title: 'Invite Users',
+      description: 'Add new team members',
+      icon: FiPlus,
+      color: 'blue',
+      href: '/dashboard/users'
+    },
+    {
+      title: 'View Analytics',
+      description: 'Check detailed metrics',
+      icon: FiEye,
+      color: 'purple',
+      href: '/dashboard/analytics'
+    },
+    {
+      title: 'Manage Subscription',
+      description: 'Update billing settings',
+      icon: FiCreditCard,
+      color: 'green',
+      href: '/dashboard/subscription'
+    }
+  ];
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Welcome Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+        <h1 className="text-3xl font-bold mb-2">
+          Admin Dashboard
+        </h1>
+        <p className="text-blue-100">
+          Manage your {settings.companyLabel.toLowerCase()} and track performance metrics.
+        </p>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {quickStats.map((stat, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className={`w-12 h-12 ${stat.bgColor} rounded-xl flex items-center justify-center`}>
+                  <SafeIcon icon={stat.icon} className={`w-6 h-6 ${stat.color}`} />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                </div>
+              </div>
+              <span className="text-sm font-medium text-green-600">{stat.change}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* User Growth Chart */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+        >
+          <h2 className="text-xl font-bold text-gray-900 mb-6">User Growth</h2>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={userGrowth}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Line 
+                  type="monotone" 
+                  dataKey="users" 
+                  stroke="#3b82f6" 
+                  strokeWidth={2}
+                  dot={{ fill: '#3b82f6' }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </motion.div>
+
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+        >
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+          <div className="space-y-4">
+            {quickActions.map((action, index) => (
+              <Link
+                key={index}
+                to={action.href}
+                className={`block p-4 border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 group ${
+                  action.color === 'blue' ? 'hover:border-blue-500 hover:bg-blue-50' :
+                  action.color === 'purple' ? 'hover:border-purple-500 hover:bg-purple-50' :
+                  'hover:border-green-500 hover:bg-green-50'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                    action.color === 'blue' ? 'bg-blue-100 group-hover:bg-blue-200' :
+                    action.color === 'purple' ? 'bg-purple-100 group-hover:bg-purple-200' :
+                    'bg-green-100 group-hover:bg-green-200'
+                  }`}>
+                    <SafeIcon icon={action.icon} className={`w-5 h-5 ${
+                      action.color === 'blue' ? 'text-blue-600' :
+                      action.color === 'purple' ? 'text-purple-600' :
+                      'text-green-600'
+                    }`} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">{action.title}</h3>
+                    <p className="text-sm text-gray-600">{action.description}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Recent Activity & Subscription Status */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Subscription Status */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+        >
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Subscription Status</h2>
+          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+            <div>
+              <p className="text-sm text-gray-600">Current Plan</p>
+              <p className="text-xl font-bold text-gray-900 capitalize">{stats.subscriptionStatus}</p>
+            </div>
+            <Link
+              to="/dashboard/subscription"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-200"
+            >
+              Manage
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Company Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+        >
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{settings.companyLabel} Info</h2>
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm text-gray-600">Name</p>
+              <p className="font-semibold text-gray-900">{user?.company?.name}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Created</p>
+              <p className="font-semibold text-gray-900">
+                {new Date(user?.company?.createdAt || Date.now()).toLocaleDateString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Total Members</p>
+              <p className="font-semibold text-gray-900">{stats.totalUsers}</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+export default AdminDashboard;
