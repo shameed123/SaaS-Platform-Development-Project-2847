@@ -18,7 +18,16 @@ function CompanyManagement() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [editingCompany, setEditingCompany] = useState({});
-  const [newCompany, setNewCompany] = useState({ name: '', slug: '' });
+  const [newCompany, setNewCompany] = useState({
+    name: '',
+    slug: '',
+    domain: '',
+    industry: '',
+    size: '',
+    subscription_plan: 'free',
+    subscription_status: 'inactive',
+    max_users: 3
+  });
 
   useEffect(() => {
     fetchCompanies();
@@ -38,12 +47,21 @@ function CompanyManagement() {
   const handleCreateCompany = async () => {
     try {
       await companyAPI.createCompany(newCompany);
-              toast.success(`${settings.companyLabel || 'Company'} created successfully!`);
+      toast.success(`${settings.companyLabel || 'Company'} created successfully!`);
       setShowCreateModal(false);
-      setNewCompany({ name: '', slug: '' });
+      setNewCompany({
+        name: '',
+        slug: '',
+        domain: '',
+        industry: '',
+        size: '',
+        subscription_plan: 'free',
+        subscription_status: 'inactive',
+        max_users: 3
+      });
       fetchCompanies();
     } catch (error) {
-              toast.error(error.response?.data?.message || `Failed to create ${settings.companyLabel?.toLowerCase() || 'company'}`);
+      toast.error(error.response?.data?.message || `Failed to create ${settings.companyLabel?.toLowerCase() || 'company'}`);
     }
   };
 
@@ -234,48 +252,164 @@ function CompanyManagement() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-xl p-6 max-w-md w-full mx-4"
+            className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
           >
-                          <h3 className="text-lg font-semibold text-gray-900 mb-4">Create {settings.companyLabel || 'Company'}</h3>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Create {settings.companyLabel || 'Company'}</h3>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <SafeIcon icon={FiIcons.FiX} className="w-6 h-6" />
+              </button>
+            </div>
             
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {settings.companyLabel || 'Company'} Name
-                </label>
-                <input
-                  type="text"
-                  value={newCompany.name}
-                  onChange={(e) => {
-                    const name = e.target.value;
-                    setNewCompany({
-                      name,
-                      slug: generateSlug(name)
-                    });
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Acme Corporation"
-                />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {settings.companyLabel || 'Company'} Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={newCompany.name}
+                    onChange={(e) => {
+                      const name = e.target.value;
+                      setNewCompany({
+                        ...newCompany,
+                        name,
+                        slug: generateSlug(name)
+                      });
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Acme Corporation"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Slug <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={newCompany.slug}
+                    onChange={(e) => setNewCompany({ ...newCompany, slug: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="acme-corporation"
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    This will be used in URLs and must be unique
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Domain
+                  </label>
+                  <input
+                    type="text"
+                    value={newCompany.domain}
+                    onChange={(e) => setNewCompany({ ...newCompany, domain: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="acme.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Industry
+                  </label>
+                  <select
+                    value={newCompany.industry}
+                    onChange={(e) => setNewCompany({ ...newCompany, industry: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Select Industry</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Education">Education</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Consulting">Consulting</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Slug
-                </label>
-                <input
-                  type="text"
-                  value={newCompany.slug}
-                  onChange={(e) => setNewCompany({ ...newCompany, slug: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="acme-corporation"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  This will be used in URLs and must be unique
-                </p>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Company Size
+                  </label>
+                  <select
+                    value={newCompany.size}
+                    onChange={(e) => setNewCompany({ ...newCompany, size: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Select Size</option>
+                    <option value="1-10">1-10 employees</option>
+                    <option value="11-50">11-50 employees</option>
+                    <option value="51-100">51-100 employees</option>
+                    <option value="101-500">101-500 employees</option>
+                    <option value="501-1000">501-1000 employees</option>
+                    <option value="1000+">1000+ employees</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Subscription Plan
+                  </label>
+                  <select
+                    value={newCompany.subscription_plan}
+                    onChange={(e) => setNewCompany({ ...newCompany, subscription_plan: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="free">Free</option>
+                    <option value="pro">Pro</option>
+                    <option value="enterprise">Enterprise</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Subscription Status
+                  </label>
+                  <select
+                    value={newCompany.subscription_status}
+                    onChange={(e) => setNewCompany({ ...newCompany, subscription_status: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="inactive">Inactive</option>
+                    <option value="active">Active</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="past_due">Past Due</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Max Users Allowed
+                  </label>
+                  <input
+                    type="number"
+                    value={newCompany.max_users}
+                    onChange={(e) => setNewCompany({ ...newCompany, max_users: parseInt(e.target.value) || 3 })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    min="1"
+                    placeholder="3"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Set to -1 for unlimited users
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="flex justify-end space-x-3 mt-6">
+            <div className="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
