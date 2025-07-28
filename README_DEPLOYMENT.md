@@ -99,6 +99,10 @@ npm run db:seed
 ```
 
 ### 5. Start Services
+```bash
+npm run dev:all
+```
+OR
 
 ```bash
 # Terminal 1: Start backend server
