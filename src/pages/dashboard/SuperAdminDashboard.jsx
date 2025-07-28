@@ -49,8 +49,8 @@ function SuperAdminDashboard() {
       title: 'Total Users',
       value: stats.totalUsers,
       icon: FiUsers,
-              color: 'text-warm-600',
-        bgColor: 'bg-warm-100',
+      color: 'text-warm-600',
+      bgColor: 'bg-warm-100',
       change: '+12%'
     },
     {
@@ -65,8 +65,8 @@ function SuperAdminDashboard() {
       title: 'Monthly Revenue',
       value: `$${stats.totalRevenue?.toLocaleString() || 0}`,
       icon: FiDollarSign,
-              color: 'text-soft-600',
-        bgColor: 'bg-soft-100',
+      color: 'text-soft-600',
+      bgColor: 'bg-soft-100',
       change: '+25%'
     },
     {
@@ -114,11 +114,11 @@ function SuperAdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
-              <div className="bg-gradient-to-r from-warm-500 to-soft-500 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-warm-500 to-soft-500 rounded-2xl p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">
           Super Admin Dashboard
         </h1>
-                  <p className="text-warm-100">
+        <p className="text-warm-100">
           Monitor platform-wide metrics and manage global settings.
         </p>
       </div>
@@ -188,7 +188,7 @@ function SuperAdminDashboard() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="userCount" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="userCount" fill="var(--color-warm-500)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
