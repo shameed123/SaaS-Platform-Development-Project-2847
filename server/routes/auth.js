@@ -138,9 +138,9 @@ router.get('/verify', async (req, res) => {
 // Signup route
 router.post('/signup', [
   body('email').isEmail().normalizeEmail(),
-  body('password').isLength({ min: 6 }),
-  body('first_name').isLength({ min: 1 }),
-  body('last_name').isLength({ min: 1 })
+  body('password').isLength({ min: 8 }),
+  body('firstName').isLength({ min: 1 }),
+  body('lastName').isLength({ min: 1 })
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -148,7 +148,7 @@ router.post('/signup', [
       return res.status(400).json({ message: 'Invalid input data', errors: errors.array() });
     }
 
-    const { email, password, first_name, last_name, company_name } = req.body;
+    const { email, password, firstName, lastName, companyName } = req.body;
 
     // Check if user already exists
     const existingUser = await pool.query(
@@ -158,6 +158,18 @@ router.post('/signup', [
 
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ message: 'User already exists' });
+    }
+
+    // Check if company already exists
+    if (companyName) {
+      const existingCompany = await pool.query(
+        'SELECT id FROM companies WHERE LOWER(name) = LOWER($1)',
+        [companyName]
+      );
+
+      if (existingCompany.rows.length > 0) {
+        return res.status(400).json({ message: 'Company already exists' });
+      }
     }
 
     // Hash password
@@ -171,20 +183,20 @@ router.post('/signup', [
       let company_id = null;
       
       // Create company if provided
-      if (company_name) {
+      if (companyName) {
         const companyResult = await client.query(
           `INSERT INTO companies (name, subscription_status, subscription_plan) 
            VALUES ($1, 'inactive', 'free') RETURNING id`,
-          [company_name]
+          [companyName]
         );
         company_id = companyResult.rows[0].id;
       }
 
-      // Create user
+      // Create user as admin (first user of the company)
       const userResult = await client.query(
         `INSERT INTO users (email, password_hash, first_name, last_name, role, email_verified, company_id) 
          VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-        [email, hashedPassword, first_name, last_name, 'user', true, company_id]
+        [email, hashedPassword, firstName, lastName, 'admin', true, company_id]
       );
 
       await client.query('COMMIT');

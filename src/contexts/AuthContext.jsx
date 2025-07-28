@@ -52,7 +52,11 @@ export const AuthProvider = ({ children }) => {
   const signup = async (userData) => {
     try {
       const response = await authAPI.signup(userData);
-      toast.success('Account created! Please check your email for verification.');
+      const { token, user } = response.data;
+      
+      localStorage.setItem('token', token);
+      setUser(user);
+      toast.success('Company created successfully! You are now the admin.');
       return { success: true };
     } catch (error) {
       toast.error(error.response?.data?.message || 'Signup failed');

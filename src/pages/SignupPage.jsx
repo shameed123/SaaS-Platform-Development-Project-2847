@@ -28,7 +28,7 @@ function SignupPage() {
     setLoading(true);
     const result = await signup(data);
     if (result.success) {
-      navigate('/verify-email');
+      navigate('/dashboard');
     }
     setLoading(false);
   };
@@ -54,7 +54,7 @@ function SignupPage() {
             Create your account
           </h2>
           <p className="mt-2 text-gray-600">
-            Start building something amazing today
+            Start your company and become the admin
           </p>
         </div>
 
@@ -253,7 +253,7 @@ function SignupPage() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-warm-500 to-soft-500 text-white py-3 px-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating account...' : 'Create account'}
+              {loading ? 'Creating account...' : 'Create company & become admin'}
             </button>
           </form>
 

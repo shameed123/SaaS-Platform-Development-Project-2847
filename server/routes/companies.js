@@ -89,6 +89,16 @@ router.post('/', async (req, res) => {
   try {
     const { name, domain, industry, size, subscription_plan } = req.body;
 
+    // Check if company already exists
+    const existingCompany = await pool.query(
+      'SELECT id FROM companies WHERE LOWER(name) = LOWER($1)',
+      [name]
+    );
+
+    if (existingCompany.rows.length > 0) {
+      return res.status(400).json({ message: 'Company already exists' });
+    }
+
     const result = await pool.query(
       `INSERT INTO companies (name, domain, industry, size, subscription_plan, subscription_status) 
        VALUES ($1, $2, $3, $4, $5, 'inactive') RETURNING *`,
